@@ -71,7 +71,7 @@ import { useRoute, useRouter } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 const isActiveRoute = (targetPath: string): string => {
-  return route.path === targetPath ? 'red' : 'white';
+  return route.path === targetPath ?'light-green-10': 'white';
 };
 </script>
 
