@@ -1,60 +1,118 @@
-<!--<template>-->
-<!--  <div class="base-input">-->
-<!--    <q-input-->
-<!--      :label="computedLabel"-->
-<!--      :placeholder="placeholder"-->
-<!--      :rules="inputRules"-->
-<!--      bordered-->
-<!--      :model-value="modelValue"-->
-<!--      @update:model-value="updateValue"-->
-<!--    />-->
-<!--  </div>-->
-<!--</template>-->
+<template>
+  <div class="input-root">
+    <div class="base-label">
+      <div class="label">
+        <span>
+          <span class="label-span">{{ label }}</span>
+          <span class="label-span2" v-if="required">*</span>
+        </span>
+      </div>
+    </div>
+    <input
+      class="input"
+      :placeholder="placeholder"
+      :value="modelValue"
+      @input="handleInput"
+    />
+  </div>
+</template>
 
-<!--<script setup lang="ts">-->
-<!--import { computed } from 'vue';-->
-<!--import { QInput } from 'quasar';-->
+<script setup lang="ts">
+type Props = {
+  label: string;
+  required?: boolean;
+  placeholder?: string;
+  modelValue: string;
+};
 
-<!--interface BaseInputProps {-->
-<!--  label: string;-->
-<!--  placeholder?: string;-->
-<!--  required?: boolean;-->
-<!--  modelValue: string;-->
-<!--}-->
+defineProps<Props>();
+const emit = defineEmits(['update:modelValue']);
 
-<!--const props = defineProps<BaseInputProps>();-->
-<!--// const emits = defineEmits(['update:modelValue']);  // 이벤트를 정의-->
+//input 입력 이벤트 발생 시 부모컴포넌트로 입력값 전달
+function handleInput(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  emit('update:modelValue', inputElement.value);
+}
+</script>
 
+<style scoped>
+.input-root,
+.input-root * {
+  box-sizing: border-box;
+}
 
-<!--const inputRules = computed(() => {-->
-<!--  if (props.required) {-->
-<!--    return [-->
-<!--      (val: string | null) => (val && val.length > 0) || 'This field is required',-->
-<!--    ];-->
-<!--  }-->
-<!--  return [];-->
-<!--});-->
+.input-root {
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #aadec2;
+  border-width: 1px;
+  padding: 16.5px 14px 16.5px 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 42px;
+  position: relative;
+  padding: 16.5px 0 16.5px 14px;
+}
 
-<!--const computedLabel = computed(() => {-->
-<!--  return props.required ? `${props.label} *` : props.label;-->
-<!--});-->
+.base-label {
+  background: #ffffff;
+  padding: 0px 4px 0px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 2px;
+  position: absolute;
+  left: 8px;
+  top: -0.5px;
+  z-index: 1;
+}
 
-<!--function updateValue(value: string | number | null): void {-->
-<!--  // value가 null이나 number일 수 있으므로, 처리 로직에 이에 대한 처리가 필요할 수 있음-->
-<!--  if (value === null) {-->
-<!--    // null일 때의 처리-->
-<!--    console.log("Value is null");-->
-<!--  } else {-->
-<!--    // string 또는 number일 때의 처리-->
-<!--    console.log("Value is:", value);-->
-<!--  }-->
-<!--}-->
+.label {
+  text-align: left;
+  font-family: 'PretendardVariable-Regular', sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 400;
+  position: relative;
+  background-color: #ffffff;
+  /*padding-top: 16.5px;*/
+  padding-left: 3px;
+  padding-right: 3px;
+}
 
-<!--</script>-->
+.label-span {
+  color: var(--text-inactive, rgba(0, 0, 0, 0.6));
+  font-family: 'PretendardVariable-Regular', sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 400;
+}
 
-<!--<style scoped>-->
-<!--.base-input .q-field__label.required::after {-->
-<!--  content: '*';-->
-<!--  color: red;-->
-<!--}-->
-<!--</style>-->
+.label-span2 {
+  color: rgba(255, 28, 28, 0.6);
+  font-family: 'PretendardVariable-Regular', sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 400;
+  margin-left: 3px;
+}
+
+.input {
+  color: #999999;
+  text-align: left;
+  font-family: 'PretendardVariable-Regular', sans-serif;
+  font-size: 16px;
+  line-height: 23px;
+  font-weight: 400;
+  position: relative;
+  border: none;
+  outline: none;
+}
+</style>
