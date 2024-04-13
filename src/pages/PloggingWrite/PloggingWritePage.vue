@@ -8,54 +8,83 @@
       @click="router.back()"
     />
     <p class="text-bold text-h5 q-mt-xl">플로깅 기록 작성</p>
-    <div class="flex column">
+    <div class="flex column q-mb-lg">
       <span class="text-grey-6">내가 한 플로깅을 기록으로 남겨보세요!</span>
     </div>
+
+    <form @submit.prevent>
+      <section class="form-wrapper">
+        <BaseInput
+          label="제목"
+          required
+          placeholder="플로깅 제목"
+          v-model="title"
+        />
+        <BaseInput
+          label="장소"
+          required
+          placeholder="플로깅 장소"
+          v-model="location"
+        />
+        <TimeInputComponent
+          @dialog-open="openDialog"
+          v-model:selected-date="date"
+        />
+      </section>
+      <BaseButton
+        type="submit"
+        size="sm"
+        text="다음"
+        color="green"
+        class="next-button"
+      />
+    </form>
 
     <!--    <q-input v-model="title" aria-required="true" color="green"/>-->
     <!--    <q-input v-model="location" label="장소 *" aria-required="true" color="green"/>-->
     <!--    <q-input v-model="time" label="시간 *" aria-required="true" color="green"/>-->
 
-    <section class="input-wrapper">
-      <q-input
-        v-model="title"
-        label="제목"
-        aria-required="true"
-        color="green"
-        required
-        class="input-field required-input"
-        placeholder="플로깅 제목"
-      />
-      <q-input
-        v-model="location"
-        label="장소"
-        aria-required="true"
-        color="green"
-        required
-        class="input-field required-input"
-        placeholder="플로깅 장소"
-      />
-
-
-      <BaseButton class="next-button" size="sm" color="#50b364" text="다음" @click="router.push('/write-second')"/>
-    </section>
-
     <!--    <q-icon name="alarm_add">플로깅 시간</q-icon>-->
-        <CalendarComponent/>
+    <!--    <CalendarComponent />-->
   </section>
+
+  <q-dialog v-model="isOpen">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">날짜 선택</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <q-date v-model="date" />
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="OK" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
-import {useRouter} from 'vue-router';
-// import CalendarComponent from 'components/CalendarComponent.vue';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import BaseInput from 'components/BaseComponent/BaseInput.vue';
 import BaseButton from 'components/BaseComponent/BaseButton.vue';
-import {ref} from 'vue';
+import TimeInputComponent from 'components/TimeInputComponent.vue';
+import { useDialog } from 'src/hooks/useDialog';
+import dayjs from 'dayjs';
+
+const emit = defineEmits(['dialog-open', 'dialog-close']);
+
+const { isOpen, openDialog } = useDialog(emit);
 
 const router = useRouter();
 const title = ref('');
 const location = ref('');
-// const time = ref('');
+const today = dayjs(new Date());
+const date = ref(today.format('YYYY-MM-DD'));
 
+// console.log(today.format('YYYY-MM-DD'));
 </script>
 
 <style scoped lang="scss">
@@ -72,13 +101,21 @@ input::placeholder {
   color: #ccc;
   opacity: 1;
 }
-.input-wrapper{
+
+.input-wrapper {
   width: 364px;
   height: 82px;
 }
-.next-button{
+
+.next-button {
   margin-top: 24px;
   position: absolute;
-  right:24px;
+  right: 24px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 </style>
