@@ -5,9 +5,15 @@
     <q-card class="my-card">
       <q-img :src="joggingImg">
         <div class="absolute-bottom">
-          <span class="card-text text-h6 text-black">홍천 비발디파크 플로깅</span>
-          <span class="card-text text-subtitle2 text-green-4">2024.01.12 (일) </span>
-          <span class="card-text text-subtitle2 text-grey-7">워크숍에서 박사님과 함께한 플로깅</span>
+          <span class="card-text text-h6 text-black text-bold"
+            >홍천 비발디파크 플로깅</span
+          >
+          <span class="card-text text-subtitle2 text-green-4"
+            >2024.01.12 (일)
+          </span>
+          <span class="card-text text-subtitle2 text-grey-7"
+            >워크숍에서 박사님과 함께한 플로깅</span
+          >
         </div>
       </q-img>
     </q-card>
@@ -24,9 +30,9 @@ import joggingImg from '../../assets/조깅이미지.svg';
   border-radius: 18px;
   box-shadow: none;
 }
-.absolute-bottom{
-  top:100px;
-  bottom:50px;
+.absolute-bottom {
+  top: 100px;
+  bottom: 50px;
   left: 20px;
   right: 20px;
   background-color: white;
@@ -37,5 +43,4 @@ import joggingImg from '../../assets/조깅이미지.svg';
   flex-direction: column;
   justify-content: center;
 }
-
 </style>

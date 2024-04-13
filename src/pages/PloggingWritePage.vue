@@ -12,16 +12,20 @@
       <span class="text-grey-6">내가 한 플로깅을 기록으로 남겨보세요!</span>
     </div>
 
-    <q-input v-model="title" aria-required="true" color="green" />
-    <q-input v-model="location" label="장소 *" aria-required="true" color="green" />
-    <q-input v-model="time" label="시간 *" aria-required="true" color="green" />
+    <q-input v-model="title" aria-required="true" color="green"/>
+    <q-input v-model="location" label="장소 *" aria-required="true" color="green"/>
+    <q-input v-model="time" label="시간 *" aria-required="true" color="green"/>
 
+    <BaseButton size="sm" color="#50b364" text="다음"/>
+    <CalendarComponent/>
   </section>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import {useRouter} from 'vue-router';
+import {ref} from 'vue';
+import CalendarComponent from 'components/CalendarComponent.vue';
+import BaseButton from 'components/BaseComponent/BaseButton.vue';
 
 const router = useRouter();
 const title = ref('');
