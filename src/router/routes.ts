@@ -15,7 +15,10 @@ const routes: RouteRecordRaw[] = [
       { path: 'feed', component: () => import('pages/FeedPage.vue') },
       { path: 'map', component: () => import('pages/MapPage.vue') },
       { path: 'mypage', component: () => import('pages/MyPage.vue') },
-      { path: 'write', component: () => import('pages/PloggingWritePage.vue') },
+      { path: 'write', component: () => import('pages/PloggingWrite/PloggingWritePage.vue') },
+      { path: 'write-second', component: () => import('pages/PloggingWrite/PloggingWriteSecondPage.vue') },
+      { path: 'write-third', component: () => import('pages/PloggingWrite/PloggingWriteThirdPage.vue') },
+      { path: 'write-end', component: () => import('pages/PloggingWrite/PloggingWriteEndPage.vue') },
     ],
   },
 
