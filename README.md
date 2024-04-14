@@ -1,41 +1,22 @@
-# Quasar App (quasar-practice2)
+## 프로젝트 기동 방법
 
-A Quasar Project
+### node 설치
 
-## Install the dependencies
-```bash
-yarn
-# or
-npm install
+
+<b>asdf</b>
+```
+asdf install nodejs 20.11.1
+asdf global nodejs 20.11.1
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
+<b>nvm</b>
+```
+nvm install 20.11.1
+nvm use
 ```
 
-
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
+### 패키지매니저 사용
+<b>use pnpm</b>
 ```
-
-
-### Format the files
-```bash
-yarn format
-# or
-npm run format
+corepack
 ```
-
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
