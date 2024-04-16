@@ -29,7 +29,8 @@
         <TimeInputComponent
           @dialog-open="openDialog"
           :selected-date="date"
-          :selected-time="time"
+          :selected-start-time="startTime"
+          :selected-end-time="endTime"
         />
       </section>
       <BaseButton
@@ -54,16 +55,51 @@
       <q-card-section>
         <div class="text-h6">날짜 선택</div>
       </q-card-section>
-<!--      <div class="q-gutter-md row items-start">-->
-<!--        <q-date v-model="date" mask="YYYY-MM-DD HH:mm" color="green" />-->
-<!--        <q-time v-model="time" mask="YYYY-MM-DD HH:mm" color="green" />-->
-<!--      </div>-->
-      <q-card-section class="q-gutter-md row items-start ">
+      <!--      <div class="q-gutter-md row items-start">-->
+      <!--        <q-date v-model="date" mask="YYYY-MM-DD HH:mm" color="green" />-->
+      <!--        <q-time v-model="time" mask="YYYY-MM-DD HH:mm" color="green" />-->
+      <!--      </div>-->
+      <q-card-section class="q-gutter-md row items-start">
         <q-date v-model="date" />
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="확인" color="primary" class="text-bold" v-close-popup />
+        <q-btn
+          flat
+          label="확인"
+          color="primary"
+          class="text-bold"
+          @click="isTimeDialogOpen = true"
+          v-close-popup
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <!--  시간선택 Dialog-->
+  <q-dialog v-model="isTimeDialogOpen">
+    <q-card class="border-radius">
+      <q-card-section>
+        <div class="text-h6">시간 선택 (언제부터 ~ 언제까지)</div>
+      </q-card-section>
+
+      <!--      시작시간-->
+      <q-card-section class="q-gutter-md row items-start">
+        <q-time v-model="startTime" />
+      </q-card-section>
+      <!--      종료시간-->
+      <q-card-section class="q-gutter-md row items-start">
+        <q-time v-model="endTime" mask="HH:mm" />
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn
+          flat
+          label="확인"
+          color="primary"
+          class="text-bold"
+          v-close-popup
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -71,7 +107,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import BaseInput from 'components/BaseComponent/BaseInput.vue';
 import BaseButton from 'components/BaseComponent/BaseButton.vue';
 import TimeInputComponent from 'components/TimeInputComponent.vue';
@@ -81,15 +117,22 @@ import dayjs from 'dayjs';
 const emit = defineEmits(['dialog-open', 'dialog-close']);
 
 const { isOpen, openDialog } = useDialog(emit);
+const isTimeDialogOpen = ref(false);
 
 const router = useRouter();
 const title = ref('');
 const location = ref('');
 const today = dayjs(new Date());
 const date = ref(today.format('YYYY-MM-DD'));
-const time = ref('');
 
-// console.log(today.format('YYYY-MM-DD'));
+//플로깅 시작시간-종료시간
+const startTime = ref(today.hour(12));
+const endTime = ref(today.hour(12));
+
+watch(() => {
+  console.log('시작시간', startTime.value);
+  console.log('종료시간', endTime.value);
+});
 </script>
 
 <style scoped lang="scss">

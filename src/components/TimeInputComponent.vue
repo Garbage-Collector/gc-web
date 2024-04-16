@@ -21,7 +21,7 @@
       </div>
       <div class="watch" @click="openDialog">
         <img class="watch-icon" :src="watchImage" />
-        <input class="input" placeholder="12:30 ~ 3:30"  />
+        <input class="input" placeholder="12:30 ~ 3:30" />
       </div>
     </section>
   </div>
@@ -35,14 +35,18 @@ import { ref, watch, defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   selectedDate: String,
-  selectedTime: String,
+  selectedStartTime: String,
+  selectedEndTime: String,
 });
-const emit = defineEmits(['dialog-open', 'update:selectedDate','update:selectedTime']);
+const emit = defineEmits([
+  'dialog-open',
+  'update:selectedDate',
+  'update:selectedTime',
+]);
 
 const { openDialog } = useDialog(emit);
 
 const dateValue = ref(props.selectedDate);
-
 
 // props로 받은 selectedDate가 변경될 때 localDate도 업데이트
 watch(
