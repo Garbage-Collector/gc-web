@@ -28,7 +28,8 @@
         />
         <TimeInputComponent
           @dialog-open="openDialog"
-          v-model:selected-date="date"
+          :selected-date="date"
+          :selected-time="time"
         />
       </section>
       <BaseButton
@@ -49,17 +50,20 @@
   </section>
 
   <q-dialog v-model="isOpen">
-    <q-card>
+    <q-card class="border-radius">
       <q-card-section>
         <div class="text-h6">날짜 선택</div>
       </q-card-section>
-
-      <q-card-section class="q-pt-none">
+<!--      <div class="q-gutter-md row items-start">-->
+<!--        <q-date v-model="date" mask="YYYY-MM-DD HH:mm" color="green" />-->
+<!--        <q-time v-model="time" mask="YYYY-MM-DD HH:mm" color="green" />-->
+<!--      </div>-->
+      <q-card-section class="q-gutter-md row items-start ">
         <q-date v-model="date" />
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="OK" color="primary" v-close-popup />
+        <q-btn flat label="확인" color="primary" class="text-bold" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -83,6 +87,7 @@ const title = ref('');
 const location = ref('');
 const today = dayjs(new Date());
 const date = ref(today.format('YYYY-MM-DD'));
+const time = ref('');
 
 // console.log(today.format('YYYY-MM-DD'));
 </script>
