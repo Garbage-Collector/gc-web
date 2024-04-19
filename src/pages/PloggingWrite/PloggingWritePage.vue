@@ -12,7 +12,7 @@
       <span class="text-grey-6">내가 한 플로깅을 기록으로 남겨보세요!</span>
     </div>
 
-    <form @submit.prevent>
+    <form @submit.prevent="submitForm">
       <section class="form-wrapper">
         <BaseInput
           label="제목"
@@ -38,7 +38,6 @@
         text="다음"
         color="green"
         class="next-button"
-        @click="router.push('/write-second')"
       />
     </form>
 
@@ -55,10 +54,7 @@
       <q-card-section>
         <div class="text-h6">날짜 선택</div>
       </q-card-section>
-      <!--      <div class="q-gutter-md row items-start">-->
-      <!--        <q-date v-model="date" mask="YYYY-MM-DD HH:mm" color="green" />-->
-      <!--        <q-time v-model="time" mask="YYYY-MM-DD HH:mm" color="green" />-->
-      <!--      </div>-->
+
       <q-card-section class="q-gutter-md row items-start">
         <q-date v-model="ploggingDate" />
       </q-card-section>
@@ -85,7 +81,7 @@
 
       <!--      시작시간-->
       <q-card-section class="q-gutter-md row items-start">
-        <q-time v-model="startTime" />
+        <q-time v-model="startTime" text-color="white" />
       </q-card-section>
       <!--      종료시간-->
       <q-card-section class="q-gutter-md row items-start">
@@ -113,6 +109,7 @@ import BaseButton from 'components/BaseComponent/BaseButton.vue';
 import TimeInputComponent from 'components/TimeInputComponent.vue';
 import { useDialog } from 'src/hooks/useDialog';
 import { date as quasarDate } from 'quasar';
+import { api } from 'src/boot/axios';
 
 const emit = defineEmits(['dialog-open', 'dialog-close']);
 
@@ -152,6 +149,25 @@ watch(ploggingDate, () => {
     `변경된 플로깅 날짜 === [${quasarDate.formatDate(ploggingDate.value, 'YYYY-MM-DD')}]`,
   );
 });
+
+const submitForm = async () => {
+  const formData = {
+    title: title.value,
+    location: location.value,
+    date: ploggingDate.value,
+    startTime: startTime.value,
+    endTime: endTime.value,
+  };
+
+  try {
+    console.log('요청 값', formData);
+    const response = await api.post('/write', formData);
+    console.log('서버 응답:', response);
+    // 성공적으로 전송 후, 다른 페이지로 이동하거나 알림을 표시
+  } catch (error) {
+    console.error('Error posting form data:', error);
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -184,5 +200,15 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   gap: 26px;
+}
+
+::v-deep .q-time__clock-circle {
+  color: black;
+}
+::v-deep .q-time__clock {
+  background-color: white;
+}
+::v-deep .q-time__container-child {
+  border: 1px solid #aadec2;
 }
 </style>
