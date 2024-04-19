@@ -39,6 +39,7 @@
         text="다음"
         color="green"
         class="next-button"
+        @click="router.push('/write-second')"
       />
     </form>
 
