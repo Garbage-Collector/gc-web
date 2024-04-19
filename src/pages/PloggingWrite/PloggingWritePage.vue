@@ -28,9 +28,8 @@
         />
         <TimeInputComponent
           @dialog-open="openDialog"
-          :selected-date="date"
-          :selected-start-time="startTime"
-          :selected-end-time="endTime"
+          :selected-date="ploggingDate"
+          :selected-time="ploggingTime"
         />
       </section>
       <BaseButton
@@ -61,7 +60,7 @@
       <!--        <q-time v-model="time" mask="YYYY-MM-DD HH:mm" color="green" />-->
       <!--      </div>-->
       <q-card-section class="q-gutter-md row items-start">
-        <q-date v-model="date" />
+        <q-date v-model="ploggingDate" />
       </q-card-section>
 
       <q-card-actions align="right">
@@ -113,7 +112,7 @@ import BaseInput from 'components/BaseComponent/BaseInput.vue';
 import BaseButton from 'components/BaseComponent/BaseButton.vue';
 import TimeInputComponent from 'components/TimeInputComponent.vue';
 import { useDialog } from 'src/hooks/useDialog';
-import dayjs from 'dayjs';
+import { date as quasarDate } from 'quasar';
 
 const emit = defineEmits(['dialog-open', 'dialog-close']);
 
@@ -123,16 +122,35 @@ const isTimeDialogOpen = ref(false);
 const router = useRouter();
 const title = ref('');
 const location = ref('');
-const today = dayjs(new Date());
-const date = ref(today.format('YYYY-MM-DD'));
+const today = new Date();
+const ploggingDate = ref(quasarDate.formatDate(today, 'YYYY-MM-DD'));
 
 //플로깅 시작시간-종료시간
-const startTime = ref(today.hour(12));
-const endTime = ref(today.hour(12));
+const startTime = ref('');
+const endTime = ref('');
 
-watch(() => {
-  console.log('시작시간', startTime.value);
-  console.log('종료시간', endTime.value);
+const ploggingTime = ref('');
+
+//TODO : 아래의 watch 를 객체로 관리해보기
+
+// 플로깅 시작시간 감시해서 변경될때마다 기록
+watch(startTime, () => {
+  console.log(`플로깅 startTime === [${startTime.value}]`);
+});
+
+//플로깅 종료시간 감시해서 변경될때마다 기록
+
+watch(endTime, () => {
+  console.log(`플로깅 endTime === [${endTime.value}]`);
+  ploggingTime.value = `${startTime.value} ~ ${endTime.value}`;
+});
+
+//플로깅 날짜 포맷 맞추기
+watch(ploggingDate, () => {
+  // ploggingDate.value = quasarDate.formatDate(ploggingDate.value, 'YYYY-MM-DD');
+  console.log(
+    `변경된 플로깅 날짜 === [${quasarDate.formatDate(ploggingDate.value, 'YYYY-MM-DD')}]`,
+  );
 });
 </script>
 
