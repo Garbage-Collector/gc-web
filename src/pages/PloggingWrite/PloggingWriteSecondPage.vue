@@ -1,12 +1,15 @@
 <template>
   <div>
     플로깅 내용 작성
+    <!-- TODO : textarea 로 수정 -->
     <BaseInput
       label="내용"
       required
       placeholder="플로깅 내용"
       v-model="content"
+      style="width: 340px; height: 260px"
     />
+
     <BaseButton
       class="next-button"
       size="sm"
