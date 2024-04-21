@@ -102,7 +102,8 @@ import BaseButton from 'components/BaseComponent/BaseButton.vue';
 import TimeInputComponent from 'components/TimeInputComponent.vue';
 import { useDialog } from 'src/hooks/useDialog';
 import { date as quasarDate } from 'quasar';
-import { api } from 'src/boot/axios';
+// import { api } from 'src/boot/axios';
+import { usePloggingStore } from 'src/stores/ploggingStore';
 
 const emit = defineEmits(['dialog-open', 'dialog-close']);
 
@@ -144,23 +145,16 @@ watch(ploggingDate, () => {
 });
 
 //TODO : 임시 제출 폼, apis폴더에 있는 내용으로 대체
-const submitForm = async () => {
-  const formData = {
+const ploggingStore = usePloggingStore();
+const submitForm = () => {
+  ploggingStore.setPloggingData({
     title: title.value,
     location: location.value,
-    date: ploggingDate.value,
-    startTime: startTime.value,
-    endTime: endTime.value,
-  };
+    startTime: `${ploggingDate.value}-${startTime.value}`,
+    endTime: `${ploggingDate.value}-${startTime.value}`,
+  });
 
-  try {
-    console.log('요청 값', formData);
-    const response = await api.post('/write', formData);
-    console.log('서버 응답:', response);
-    // router.push('/write-second');
-  } catch (error) {
-    console.error('Error posting form data:', error);
-  }
+  router.push('/write-second');
 };
 </script>
 
