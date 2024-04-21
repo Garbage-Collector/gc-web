@@ -40,13 +40,6 @@
         class="next-button"
       />
     </form>
-
-    <!--    <q-input v-model="title" aria-required="true" color="green"/>-->
-    <!--    <q-input v-model="location" label="장소 *" aria-required="true" color="green"/>-->
-    <!--    <q-input v-model="time" label="시간 *" aria-required="true" color="green"/>-->
-
-    <!--    <q-icon name="alarm_add">플로깅 시간</q-icon>-->
-    <!--    <CalendarComponent />-->
   </section>
 
   <q-dialog v-model="isOpen">
@@ -150,6 +143,7 @@ watch(ploggingDate, () => {
   );
 });
 
+//TODO : 임시 제출 폼, apis폴더에 있는 내용으로 대체
 const submitForm = async () => {
   const formData = {
     title: title.value,
@@ -163,7 +157,7 @@ const submitForm = async () => {
     console.log('요청 값', formData);
     const response = await api.post('/write', formData);
     console.log('서버 응답:', response);
-    // 성공적으로 전송 후, 다른 페이지로 이동하거나 알림을 표시
+    // router.push('/write-second');
   } catch (error) {
     console.error('Error posting form data:', error);
   }
