@@ -2,6 +2,10 @@ import { Component, defineAsyncComponent } from 'vue';
 
 const LikeIcon = defineAsyncComponent(() => import('./LikeIcon.svg'));
 const ShareIcon = defineAsyncComponent(() => import('./ShareIcon.svg'));
+const BurgerMenuIcon = defineAsyncComponent(
+  () => import('./BurgerMenuIcon.svg'),
+);
+const TrashCan = defineAsyncComponent(() => import('./TrashCanIcon.svg'));
 
 interface IconComponents {
   [key: string]: Component;
@@ -10,21 +14,8 @@ interface IconComponents {
 const icons: IconComponents = {
   like: LikeIcon,
   share: ShareIcon,
+  burgerMenu: BurgerMenuIcon,
+  trashCan: TrashCan,
 };
 
 export default icons;
-// // icons/index.ts
-// import { Component } from 'vue';
-// const HomeIcon = defineAsyncComponent(() => import('./home.vue'));
-// const SettingsIcon = defineAsyncComponent(() => import('./settings.vue'));
-
-// interface IconComponents {
-//   [key: string]: Component;
-// }
-
-// const icons: IconComponents = {
-//   home: HomeIcon,
-//   settings: SettingsIcon,
-// };
-
-// export default icons;
