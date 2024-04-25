@@ -8,10 +8,16 @@
         <span class="date"> {{ props.startDate }}</span>
 
         <div class="icon-wrapper">
-          <BaseIcon icon="like" />
-          <BaseIcon icon="share" />
-          <BaseIcon icon="burgerMenu" />
-          <BaseIcon icon="trashCan" />
+          <BaseIcon icon="like" @click.stop="console.log('추후 구현 예정')" />
+          <BaseIcon icon="share" @click.stop="console.log('추후 구현 예정')" />
+          <BaseIcon
+            icon="burgerMenu"
+            @click.stop="console.log('추후 구현 예정')"
+          />
+          <BaseIcon
+            icon="trashCan"
+            @click.stop="console.log('추후 구현 예정')"
+          />
         </div>
         <q-btn
           round
@@ -19,6 +25,7 @@
           icon="edit"
           style="width: 30px; height: 30px"
           class="edit-button"
+          @click.stop="router.push(`/feed/modify/${props.id}`)"
         />
       </div>
     </div>
@@ -27,6 +34,7 @@
 
 <script setup lang="ts">
 import BaseIcon from 'src/components/BaseComponent/BaseIcon.vue';
+import { useRouter } from 'vue-router';
 type Props = {
   id: string;
   title: string;
@@ -35,6 +43,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+const router = useRouter();
 </script>
 
 <style scoped>

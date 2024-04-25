@@ -13,6 +13,14 @@ const routes: RouteRecordRaw[] = [
       { path: 'home', component: () => import('pages/HomeMainPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'feed', component: () => import('pages/Feed/FeedPage.vue') },
+      {
+        path: 'feed/:id',
+        component: () => import('pages/Feed/FeedDetailPage.vue'),
+      },
+      {
+        path: 'feed/modify/:id',
+        component: () => import('pages/Feed/FeedModifyPage.vue'),
+      },
       { path: 'map', component: () => import('pages/MapPage.vue') },
       { path: 'mypage', component: () => import('pages/MyPage.vue') },
       {

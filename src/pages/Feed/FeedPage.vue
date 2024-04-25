@@ -12,14 +12,18 @@
         :title="banner.title"
         :start-date="banner.startDate"
         :imgSrc="banner.photo"
+        @click.prevent="router.push(`/feed/${banner.id}`)"
       />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
 import FeedHeaderComponent from './FeedHeaderComponent.vue';
 import BaseBanner from 'src/components/BaseComponent/BaseBanner.vue';
+
+const router = useRouter();
 const data = [
   {
     id: '1',
