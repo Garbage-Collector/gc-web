@@ -24,7 +24,8 @@ export const usePloggingStore = defineStore('plogging', {
       this.content = content;
     },
     addPloggingImage(image: File) {
-      this.images.push(image);
+      // this.images.push(image);
+      this.images = [image];
     },
 
     async submitPlogging() {

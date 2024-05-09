@@ -29,10 +29,11 @@ const handleFileChange = (event: Event) => {
     const totalImages = images.value.length + selectedFiles.length;
     if (totalImages > 5) {
       alert('최대 5장의 이미지만 업로드할 수 있습니다.');
+      images.value = images.value.slice(0, 5);
       return;
     }
     // images 배열에 파일 추가
-    images.value.push(...selectedFiles); // 타입이 명확하므로 에러가 발생하지 않아야 함
+    images.value.push(...selectedFiles.slice(0, 5 - images.value.length)); // 5장을 넘지 않도록 파일을 추가
   }
 };
 

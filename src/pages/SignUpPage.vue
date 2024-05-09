@@ -1,11 +1,11 @@
 <template>
-  <h5>임시 로그인 페이지</h5>
+  <h5>임시 회원가입 페이지</h5>
 
-  <q-form @submit.prevent="login">
+  <q-form @submit.prevent="signup">
     <q-input v-model="email" label="이메일" color="green" />
     <q-input v-model="password" label="비밀번호" color="green" />
     <q-input v-model="nickname" label="닉네임" color="green" />
-    <q-btn type="submit" label="로그인" color="green" rounded></q-btn>
+    <q-btn type="submit" label="회원가입 하기" color="green" rounded></q-btn>
   </q-form>
 </template>
 
@@ -22,7 +22,7 @@ const email = ref('');
 const password = ref('');
 const nickname = ref('');
 
-const login = async () => {
+const signup = async () => {
   //로그인 요청
   return await api
     .post('/users', {

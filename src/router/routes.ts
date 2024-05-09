@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/signin',
   },
   {
     path: '/',
@@ -11,7 +11,8 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'home', component: () => import('pages/HomeMainPage.vue') },
-      { path: 'login', component: () => import('pages/LoginPage.vue') },
+      { path: 'signin', component: () => import('src/pages/SignInPage.vue') },
+      { path: 'signup', component: () => import('pages/SignUpPage.vue') },
       { path: 'feed', component: () => import('pages/Feed/FeedPage.vue') },
       {
         path: 'feed/:id',
