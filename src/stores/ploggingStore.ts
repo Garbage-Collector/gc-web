@@ -40,11 +40,11 @@ export const usePloggingStore = defineStore('plogging', {
         };
         appendFormData(formData, ploggingData); //유틸함수 appendFormData로 전송할  폼데이터 추가
 
-        this.images.forEach((image, index) => {
-          formData.append(`image${index}`, image); //이미지 배열에 추가
+        this.images.forEach((image) => {
+          formData.append('images', image); //이미지 배열에 추가
         });
         console.log(formData);
-        const response = await api.post('/record/create', formData);
+        const response = await api.post('/records', formData);
         console.log('서버 응답:', response);
         return response;
       } catch (error) {

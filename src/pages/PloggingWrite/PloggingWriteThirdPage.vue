@@ -40,7 +40,8 @@ const submitImages = async () => {
   images.value.forEach((image) => {
     ploggingStore.addPloggingImage(image);
   });
-  console.log(ploggingStore.images);
+
+  //모은 form 들 post 호출
   await ploggingStore.submitPlogging();
   images.value = []; // 초기화
 };

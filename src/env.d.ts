@@ -7,3 +7,8 @@ declare namespace NodeJS {
     VUE_ROUTER_BASE: string | undefined;
   }
 }
+interface ImportMeta {
+  env: {
+    VITE_BASE_URL: string;
+  };
+}
