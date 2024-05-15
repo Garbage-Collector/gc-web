@@ -11,11 +11,7 @@
           class="flex justify-center items-center column cursor-pointer q-mt-md"
           @click="router.push('/home')"
         >
-          <q-icon
-            name="home"
-            size="24px"
-            :color="isActiveRoute('/home')"
-          />
+          <q-icon name="home" size="24px" :color="isActiveRoute('/home')" />
           <p>Home</p>
         </div>
         <!--homeTab-->
@@ -25,11 +21,7 @@
           class="flex justify-center items-center column cursor-pointer q-mt-md"
           @click="router.push('/feed')"
         >
-          <q-icon
-            name="feed"
-            size="24px"
-            :color="isActiveRoute('/feed')"
-          />
+          <q-icon name="feed" size="24px" :color="isActiveRoute('/feed')" />
           <p>Feed</p>
         </div>
         <!--Feed-->
@@ -39,11 +31,7 @@
           class="flex justify-center items-center column cursor-pointer q-mt-md"
           @click="router.push('/map')"
         >
-          <q-icon
-            name="map"
-            size="24px"
-            :color="isActiveRoute('/map')"
-          />
+          <q-icon name="map" size="24px" :color="isActiveRoute('/map')" />
           <p>Map</p>
         </div>
         <!--Map-->
@@ -53,11 +41,7 @@
           class="flex justify-center items-center column cursor-pointer q-mt-md"
           @click="router.push('/mypage')"
         >
-          <q-icon
-            name="person"
-            size="24px"
-            :color="isActiveRoute('/mypage')"
-          />
+          <q-icon name="person" size="24px" :color="isActiveRoute('/mypage')" />
           <p>My</p>
         </div>
         <!--My-->
@@ -71,7 +55,7 @@ import { useRoute, useRouter } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 const isActiveRoute = (targetPath: string): string => {
-  return route.path === targetPath ?'light-green-10': 'white';
+  return route.path === targetPath ? 'light-green-10' : 'white';
 };
 </script>
 
