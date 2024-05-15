@@ -48,6 +48,7 @@ const router = useRouter();
 
 <style scoped>
 .banner-wrapper {
+  width: 100%;
   display: flex;
   height: 100px;
 }
