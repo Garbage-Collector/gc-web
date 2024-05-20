@@ -20,8 +20,11 @@ import { useAuthStore } from 'stores/authStore';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { api } from 'boot/axios';
+import { useProfileStore } from 'src/stores/profileStore';
 
 const authStore = useAuthStore();
+const profileStore = useProfileStore();
+
 const router = useRouter();
 
 const email = ref('');
@@ -34,11 +37,19 @@ const login = async () => {
       email: email.value,
       password: password.value,
     })
-    .then(() => {
+    .then((res) => {
       // const token = res.data.token;
       //
       // localStorage.setItem('token', token);
       authStore.login();
+
+      const userProfile = res.data;
+      console.log(`res.data === [${JSON.stringify(res.data)}]`);
+      console.log(`userProfile ===[${userProfile}]`);
+      profileStore.setProfile(userProfile);
+      console.log(`사용자 닉네임 === [${profileStore.profile.nickname}]`);
+      console.log(`사용자 ID === [${profileStore.profile.id}]`);
+      console.log(`사용자 닉네임 === [${profileStore.profile.nickname}]`);
       console.log('전역 스토어 로그인 상태 : ', authStore.isLoggedIn);
       router.push('/home');
     });

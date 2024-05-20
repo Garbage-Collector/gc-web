@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
 import { api } from 'src/boot/axios';
 import { appendFormData } from 'src/utils/setFormData';
+import { useProfileStore } from './profileStore';
 
+const profileStore = useProfileStore();
 export const usePloggingStore = defineStore('plogging', {
   state: () => ({
     title: '',
@@ -45,7 +47,10 @@ export const usePloggingStore = defineStore('plogging', {
           formData.append('images', image); //이미지 배열에 추가
         });
         console.log(`formData === [${formData}]`);
-        const response = await api.post('/records', formData);
+        const response = await api.post(
+          `/records/${profileStore.profile.id}`,
+          formData,
+        );
         console.log('서버 응답:', response);
         return response;
       } catch (error) {

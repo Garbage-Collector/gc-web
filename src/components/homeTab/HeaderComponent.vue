@@ -23,10 +23,14 @@
 
 <script setup lang="ts">
 import profile from 'assets/준호이미지.png';
+import { useProfileStore } from 'src/stores/profileStore';
 import { ref } from 'vue';
 
-const userName = ref('주노손');
+const profileStore = useProfileStore();
+
+const userName = ref(profileStore.profile.nickname);
 const grade = ref('비기너');
+console.log(userName.value);
 </script>
 
 <style scoped lang="scss"></style>

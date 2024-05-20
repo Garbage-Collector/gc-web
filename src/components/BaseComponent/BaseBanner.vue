@@ -1,7 +1,7 @@
 <template>
   <section class="banner-wrapper">
     <!-- <img :src="props.imgSrc" :alt="title" class="banner-image" /> -->
-    <img src="../../assets/피드이미지.png" alt="" />
+    <img :src="props.imgSrc" alt="" />
     <div :id="id" class="banner">
       <div class="banner-info">
         <p class="title">{{ props.title }}</p>

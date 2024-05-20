@@ -25,7 +25,7 @@ const nickname = ref('');
 const signup = async () => {
   //로그인 요청
   return await api
-    .post('/users', {
+    .post('/users/signup', {
       email: email.value,
       password: password.value,
       nickname: nickname.value,
