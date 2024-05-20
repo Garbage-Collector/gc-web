@@ -2,17 +2,62 @@
   <h5>임시 로그인 페이지</h5>
 
   <q-form @submit.prevent="login">
-    <q-input v-model="email" label="이메일" color="green" />
-    <q-input v-model="password" label="비밀번호" color="green" />
+    <q-input
+      bottom-slots
+      v-model="email"
+      label="E-mail"
+      counter
+      maxlength="50"
+      dense
+    >
+      <template v-slot:before>
+        <q-icon name="email" />
+      </template>
+
+      <template v-slot:append>
+        <q-icon
+          v-if="email !== ''"
+          name="close"
+          @click="email = ''"
+          class="cursor-pointer"
+        />
+      </template>
+
+      <template v-slot:hint> 로그인 시 사용할 이메일을 입력해주세요 </template>
+    </q-input>
+
+    <q-input
+      bottom-slots
+      v-model="password"
+      label="Password"
+      type="password"
+      counter
+      maxlength="20"
+      dense
+    >
+      <template v-slot:before>
+        <q-icon name="lock" />
+      </template>
+
+      <template v-slot:append>
+        <q-icon
+          v-if="password !== ''"
+          name="close"
+          @click="password = ''"
+          class="cursor-pointer"
+        />
+      </template>
+
+      <template v-slot:hint>
+        <p>8~20자리의 비밀번호를 입력해주세요.</p>
+        (영문자, 소문자, 특수문자 필수)
+      </template>
+    </q-input>
+
     <q-btn type="submit" label="로그인" color="green" rounded></q-btn>
   </q-form>
-  <q-btn
-    type="submit"
-    label="회원가입 하러 가기"
-    color="green"
-    rounded
-    to="/signup"
-  ></q-btn>
+
+  <q-btn label="회원가입 하러 가기" color="green" rounded to="/signup"></q-btn>
 </template>
 
 <script setup lang="ts">

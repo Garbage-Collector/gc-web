@@ -99,10 +99,10 @@ import { useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
 import BaseInput from 'components/BaseComponent/BaseInput.vue';
 import BaseButton from 'components/BaseComponent/BaseButton.vue';
-import TimeInputComponent from 'components/TimeInputComponent.vue';
+import TimeInputComponent from 'components/Record/TimeInputComponent.vue';
 import { useDialog } from 'src/hooks/useDialog';
 import { date as quasarDate } from 'quasar';
-// import { api } from 'src/boot/axios';
+
 import { usePloggingStore } from 'src/stores/ploggingStore';
 
 const emit = defineEmits(['dialog-open', 'dialog-close']);

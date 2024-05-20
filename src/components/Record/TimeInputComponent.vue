@@ -27,8 +27,8 @@
   </div>
 </template>
 <script setup>
-import calendar from '../assets/icons/calendar.png';
-import watchImage from '../assets/icons/watch.png';
+import calendar from '../../assets/icons/calendar.png';
+import watchImage from '../../assets/icons/watch.png';
 import { useDialog } from 'src/hooks/useDialog.ts';
 
 import { ref, watch, defineProps, defineEmits } from 'vue';

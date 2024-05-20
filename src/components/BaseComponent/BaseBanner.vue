@@ -1,7 +1,7 @@
 <template>
   <section class="banner-wrapper">
     <!-- <img :src="props.imgSrc" :alt="title" class="banner-image" /> -->
-    <img :src="props.imgSrc" alt="" />
+    <img :src="computedImgSrc" :alt="title" class="banner-image" />
     <div :id="id" class="banner">
       <div class="banner-info">
         <p class="title">{{ props.title }}</p>
@@ -14,10 +14,7 @@
             icon="burgerMenu"
             @click.stop="console.log('추후 구현 예정')"
           />
-          <BaseIcon
-            icon="trashCan"
-            @click.stop="console.log('추후 구현 예정')"
-          />
+          <BaseIcon icon="trashCan" @click.stop="confirmDelete" />
         </div>
         <q-btn
           round
@@ -33,7 +30,11 @@
 </template>
 
 <script setup lang="ts">
+import { api } from 'src/boot/axios';
 import BaseIcon from 'src/components/BaseComponent/BaseIcon.vue';
+import { computed } from 'vue';
+import defaultImg from '../../assets/피드이미지.png';
+
 import { useRouter } from 'vue-router';
 type Props = {
   id: string;
@@ -44,6 +45,26 @@ type Props = {
 
 const props = defineProps<Props>();
 const router = useRouter();
+
+const computedImgSrc = computed(() => {
+  return props.imgSrc || defaultImg;
+});
+
+const confirmDelete = () => {
+  if (window.confirm('정말 삭제하시겠습니까?')) {
+    deleteRecord(props.id);
+  }
+};
+
+const deleteRecord = async (recordId: string) => {
+  try {
+    await api.delete(`/records/${recordId}`).then(() => {
+      console.log('삭제됨');
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <style scoped>
@@ -64,8 +85,6 @@ const router = useRouter();
 .banner-image {
   width: 100px;
   height: 100%;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
 .title {
   font-size: 16px;

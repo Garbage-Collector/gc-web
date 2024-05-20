@@ -10,7 +10,7 @@
       <BaseBanner
         :id="banner.id"
         :title="banner.title"
-        :start-date="banner.startDate"
+        :start-date="banner.startDate.substring(0, 10)"
         :imgSrc="banner.photo"
         @click.prevent="router.push(`/feed/${banner.id}`)"
       />

@@ -12,6 +12,7 @@ export const usePloggingStore = defineStore('plogging', {
     images: [] as unknown as File[], //base64로 인코딩한 문자열?타입?
     startTime: '',
     endTime: '',
+    ploggingRecord: [],
   }),
 
   actions: {
