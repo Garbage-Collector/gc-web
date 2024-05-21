@@ -1,19 +1,28 @@
 <template>
   <section class="main-wrapper">
-    <FeedHeaderComponent />
+    <FeedHeaderComponent :plogging-count="data.length" />
 
     <strong class="my-plogging">나의 플로깅 기록 </strong>
     <br />
     <br />
 
-    <div v-for="(banner, index) in data" :key="index" class="banner_wrapper">
-      <BaseBanner
-        :id="banner.id"
-        :title="banner.title"
-        :start-date="banner.startDate.substring(0, 10)"
-        :imgSrc="banner.photo"
-        @click.prevent="router.push(`/feed/${banner.id}`)"
-      />
+    <div v-if="data.length !== 0">
+      <div v-for="(banner, index) in data" :key="index" class="banner_wrapper">
+        <BaseBanner
+          :id="banner.id"
+          :title="banner.title"
+          :start-date="banner.startDate.substring(0, 10)"
+          :imgSrc="banner.photo"
+          @click.prevent="router.push(`/feed/${banner.id}`)"
+        />
+      </div>
+    </div>
+    <div v-else class="alert_wrapper">
+      <img :src="greenAlert" alt="green_alert" class="alert" />
+      <span class="text-green-4 text-bold"
+        >아직 플로깅을 시작하지 않았어요!</span
+      >
+      <span class="text-green-4 text-bold">나의 플로깅을 등록해보세요.</span>
     </div>
   </section>
 </template>
@@ -26,6 +35,8 @@ import { api } from 'src/boot/axios';
 import { useProfileStore } from 'src/stores/profileStore';
 import { onMounted, ref } from 'vue';
 
+import greenAlert from '../../assets/green-alert-img.png';
+
 interface Record {
   id: string;
   title: string;
@@ -34,7 +45,7 @@ interface Record {
 }
 
 const formatResponseData = (responseData): Record[] => {
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const baseUrl = import.meta.env.VITE_BASE_URL.slice(0, -4);
 
   return responseData.records.map((record) => ({
     id: record.id,
@@ -113,11 +124,24 @@ onMounted(async () => {
   margin-bottom: 20px; /* 배너 아래에도 간격을 주려면 추가 */
 }
 .main-wrapper {
-  padding: 20px;
+  padding: 48px 24px;
 }
 .my-plogging {
   font-size: 24px;
   font-weight: bold;
   color: black;
+}
+
+.alert {
+  width: 120px;
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+.alert_wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30%;
 }
 </style>

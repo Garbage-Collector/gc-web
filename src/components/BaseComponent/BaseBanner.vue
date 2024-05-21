@@ -85,6 +85,8 @@ const deleteRecord = async (recordId: string) => {
 .banner-image {
   width: 100px;
   height: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 .title {
   font-size: 16px;

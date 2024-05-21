@@ -20,6 +20,9 @@ dependencies:
   http-server:
     specifier: ^14.1.1
     version: 14.1.1
+  lottie-web:
+    specifier: ^5.12.2
+    version: 5.12.2
   pinia:
     specifier: ^2.0.11
     version: 2.1.7(typescript@5.3.3)(vue@3.4.21)
@@ -4840,6 +4843,10 @@ packages:
       chalk: 4.1.2
       is-unicode-supported: 0.1.0
     dev: true
+
+  /lottie-web@5.12.2:
+    resolution: {integrity: sha512-uvhvYPC8kGPjXT3MyKMrL3JitEAmDMp30lVkuq/590Mw9ok6pWcFCwXJveo0t5uqYw1UREQHofD+jVpdjBv8wg==}
+    dev: false
 
   /lower-case@1.1.4:
     resolution: {integrity: sha512-2Fgx1Ycm599x+WGpIYwJOvsjmXFzTSc34IwDWALRA/8AopUKAVPwfJ+h5+f85BCp0PWmmJcWzEpxOpoXycMpdA==}
