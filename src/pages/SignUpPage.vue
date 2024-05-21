@@ -10,12 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from 'stores/authStore';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
 
-const authStore = useAuthStore();
+const $q = useQuasar();
 const router = useRouter();
 
 const email = ref('');
@@ -34,9 +34,13 @@ const signup = async () => {
       // const token = res.data.token;
       //
       // localStorage.setItem('token', token);
-      authStore.login();
-      console.log('전역 스토어 로그인 상태 : ', authStore.isLoggedIn);
-      router.push('/home');
+      $q.notify({
+        message: '회원가입에 성공했어요! 로그인 해주세요',
+        type: 'positive',
+        position: 'bottom',
+        color: 'green-10',
+      });
+      router.push('/signin');
     });
 };
 </script>

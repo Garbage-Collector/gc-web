@@ -66,8 +66,9 @@
     </q-form>
 
     <q-btn
-      label="회원가입 하러 가기"
-      color="green"
+      label="📧 회원가입 하러 가기"
+      color="white"
+      text-color="black"
       to="/signup"
       class="signup-button"
     ></q-btn>
@@ -145,9 +146,15 @@ const login = async () => {
 section {
   padding: 48px 24px;
 }
-.signup-button,
+.signup-button {
+  width: 100%;
+  margin-top: 32px;
+  border: 1px solid #e2e8f0;
+  padding: 8px 24px;
+}
 .login-button {
   width: 100%;
-  margin-top: 20%;
+  margin-top: 64px;
+  padding: 8px 24px;
 }
 </style>
