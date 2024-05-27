@@ -7,6 +7,7 @@ const BurgerMenuIcon = defineAsyncComponent(
 );
 const BackArrow = defineAsyncComponent(() => import('./BackArrow.svg'));
 const TrashCan = defineAsyncComponent(() => import('./TrashCanIcon.svg'));
+const AddBox = defineAsyncComponent(() => import('./addBox.svg'));
 
 interface IconComponents {
   [key: string]: Component;
@@ -18,6 +19,7 @@ const icons: IconComponents = {
   burgerMenu: BurgerMenuIcon,
   trashCan: TrashCan,
   backArrow: BackArrow,
+  addBox: AddBox,
 };
 
 export default icons;

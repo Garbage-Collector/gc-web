@@ -4,6 +4,7 @@ import { appendFormData } from 'src/utils/setFormData';
 import { useProfileStore } from './profileStore';
 
 const profileStore = useProfileStore();
+
 export const usePloggingStore = defineStore('plogging', {
   state: () => ({
     title: '',
@@ -53,6 +54,7 @@ export const usePloggingStore = defineStore('plogging', {
           formData,
         );
         console.log('서버 응답:', response);
+
         return response;
       } catch (error) {
         console.error('Error posting form data:', error);

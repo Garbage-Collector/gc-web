@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-detail">
+  <section class="main-wrapper">
     <BaseIcon
       class="eva-arrow-back-fill"
       icon="backArrow"
@@ -9,7 +9,8 @@
     <div class="frame-4171">
       <img
         class="unsplash-b-hn-3-ww-jb-fzy"
-        src="unsplash-b-hn-3-ww-jb-fzy0.png"
+        :src="`${baseUrl}${record.image[0].imageUrl}`"
+        alt="Record Image"
       />
       <div class="frame-4170">
         <div class="frame-4169">
@@ -34,84 +35,62 @@
                 }}</span>
               </span>
             </div>
-            <img class="rectangle-3764" src="rectangle-37640.png" />
+            <img
+              class="rectangle-3764"
+              :src="profilePicture"
+              alt="Profile Picture"
+            />
           </div>
         </div>
       </div>
       <div class="frame-4167">
-        <div
-          class="lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-maecenas-id-sit-eu-tellus-sed-cursus-eleifend-id-porta-lorem-adipiscing-mus-vestibulum-consequat-porta-eu-ultrices-feugiat-et-faucibus-ut-amet-turpis-facilisis-faucibus-semper-cras-purus"
-        >
+        <div class="record-content">
           {{ record.content }}
-        </div>
-        <div
-          class="lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-maecenas-id-sit-eu-tellus-sed-cursus-eleifend-id-porta"
-        >
-          테스트 텍스트1
-        </div>
-        <div
-          class="fermentum-et-eget-libero-lectus-amet-tellus-aliquam-dignissim-enim-placerat-purus-nunc-ac-ipsum-ac-pretium"
-        >
-          테스트 텍스트2
         </div>
       </div>
     </div>
-
-    <img class="image-5" src="image-50.png" />
-    <div class="frame-3870"></div>
-  </div>
+  </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { api } from 'src/boot/axios';
 import BaseIcon from 'src/components/BaseComponent/BaseIcon.vue';
 import { useProfileStore } from 'src/stores/profileStore';
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
+import profilePicture from '../../assets/준호이미지.png';
 
 const profileStore = useProfileStore();
 const router = useRouter();
 const route = useRoute();
+const baseUrl = import.meta.env.VITE_BASE_URL.slice(0, -4);
 
 const userId = profileStore.profile.id;
 const recordId = route.params.id;
-const record = ref([]);
+const record = ref({
+  image: [] as { imageUrl: string }[],
+  imageUrl: '',
+  location: '',
+  startTime: '',
+  title: '',
+  content: '',
+});
 
 const fetchSingleRecord = async () => {
-  const response = await api.get(`/records/${userId}/${recordId}`);
-
-  record.value = response.data.record;
+  await api.get(`/records/${userId}/${recordId}`).then((res) => {
+    console.log(res.data.record);
+    record.value = res.data.record;
+  });
 };
 
-onMounted(() => {
+onBeforeMount(() => {
   fetchSingleRecord();
 });
 </script>
 
 <style scoped>
-.blog-detail,
-.blog-detail * {
-  box-sizing: border-box;
-}
-.blog-detail {
-  background: #ffffff;
-  border-style: solid;
-  border-color: #ffffff;
-  border-width: 12px;
-  height: 812px;
-  position: relative;
-  box-shadow: var(
-    --shadow-box-shadow,
-    0px 1.99px 2.09px 0px rgba(0, 0, 0, 0.02),
-    0px 4.53px 4.76px 0px rgba(0, 0, 0, 0.02),
-    0px 7.88px 8.28px 0px rgba(0, 0, 0, 0.03),
-    0px 12.52px 13.15px 0px rgba(0, 0, 0, 0.04),
-    0px 19.32px 20.29px 0px rgba(0, 0, 0, 0.04),
-    0px 30.15px 31.65px 0px rgba(0, 0, 0, 0.05),
-    0px 50.05px 52.55px 0px rgba(0, 0, 0, 0.05),
-    0px 100px 105px 0px rgba(0, 0, 0, 0.07)
-  );
-  overflow: hidden;
+.main-wrapper {
+  padding: 48px 24px;
 }
 .frame-4171 {
   display: flex;
@@ -120,8 +99,6 @@ onMounted(() => {
   align-items: flex-start;
   justify-content: flex-start;
   position: absolute;
-  left: 20px;
-  top: 124px;
 }
 .unsplash-b-hn-3-ww-jb-fzy {
   border-radius: 16px;
@@ -270,7 +247,7 @@ onMounted(() => {
   flex-shrink: 0;
   position: relative;
 }
-.lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-maecenas-id-sit-eu-tellus-sed-cursus-eleifend-id-porta-lorem-adipiscing-mus-vestibulum-consequat-porta-eu-ultrices-feugiat-et-faucibus-ut-amet-turpis-facilisis-faucibus-semper-cras-purus {
+.record-content {
   color: var(--main-black, #2c2c2c);
   text-align: left;
   font-family: 'OpenSans-Regular', sans-serif;
@@ -278,34 +255,11 @@ onMounted(() => {
   font-weight: 400;
   position: relative;
   width: 335px;
-  height: 134px;
-}
-.lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-maecenas-id-sit-eu-tellus-sed-cursus-eleifend-id-porta {
-  color: var(--main-black, #2c2c2c);
-  text-align: left;
-  font-family: 'OpenSans-Regular', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  position: relative;
-  width: 335px;
-  height: 69px;
-}
-.fermentum-et-eget-libero-lectus-amet-tellus-aliquam-dignissim-enim-placerat-purus-nunc-ac-ipsum-ac-pretium {
-  color: var(--main-black, #2c2c2c);
-  text-align: left;
-  font-family: 'OpenSans-Regular', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  position: relative;
-  width: 335px;
+  height: auto;
 }
 .eva-arrow-back-fill {
   width: 36px;
   height: 36px;
-  position: absolute;
-  left: 20px;
-  top: 62px;
-  overflow: visible;
 }
 .image-5 {
   opacity: 0.8799999952316284;
@@ -362,18 +316,3 @@ onMounted(() => {
   overflow: visible;
 }
 </style>
-
-<!-- <template>
-  <div>
-    <h3>피드 디테일 페이지</h3>
-    <p>게시글 아이디 === {{ route.params.id }}</p>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
-</script>
-
-<style scoped></style> -->
