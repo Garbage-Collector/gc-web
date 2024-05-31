@@ -29,7 +29,6 @@
           <div class="group-4170">
             <div class="by-mason-eduard">
               <span>
-                <span class="by-mason-eduard-span">By:</span>
                 <span class="by-mason-eduard-span2">{{
                   profileStore.profile.nickname
                 }}</span>
@@ -226,8 +225,7 @@ onBeforeMount(() => {
   color: var(--gray-1, #333333);
   font-family: 'OpenSans-Regular', sans-serif;
   font-size: 10px;
-  font-weight: 400;
-  text-decoration: underline;
+  font-weight: bold;
 }
 .rectangle-3764 {
   border-radius: 4px;
@@ -256,6 +254,7 @@ onBeforeMount(() => {
   position: relative;
   width: 335px;
   height: auto;
+  white-space: pre;
 }
 .eva-arrow-back-fill {
   width: 36px;

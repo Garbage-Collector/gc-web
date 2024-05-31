@@ -14,7 +14,6 @@
 
     <div>
       <!-- <input type="file" @change="handleFileChange" multiple /> -->
-
       <!-- <img :src="inputBackgroundImg" class="img_wrapper" alt="" /> -->
     </div>
 
@@ -24,7 +23,9 @@
         @change="handleFileChange"
         multiple
         class="file-input"
+        id="upload-image"
       />
+
       <!-- <img class="add-box" :src="addBox" alt="addBox" /> -->
       <BaseIcon icon="addBox" class="add-box" />
       <div class="img-text">플로깅을 기록할 사진을 선택해주세요!</div>
