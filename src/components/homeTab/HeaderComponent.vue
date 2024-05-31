@@ -2,7 +2,7 @@
   <section class="flex items-center justify-between">
     <div class="flex">
       <q-avatar size="60px">
-        <img src="../../assets/준호이미지.png" alt="" />
+        <img src="../../assets/logo.png" alt="" />
         <q-img :src="profile" />
       </q-avatar>
       <span class="flex column q-mt-sm q-ml-sm">
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import profile from 'assets/준호이미지.png';
+import profile from 'assets/logo.png';
 import { useProfileStore } from 'src/stores/profileStore';
 import { ref } from 'vue';
 

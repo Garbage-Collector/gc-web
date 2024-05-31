@@ -58,7 +58,7 @@ import BaseIcon from 'src/components/BaseComponent/BaseIcon.vue';
 import { useProfileStore } from 'src/stores/profileStore';
 import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
-import profilePicture from '../../assets/준호이미지.png';
+import profilePicture from '../../assets/logo.png';
 
 const profileStore = useProfileStore();
 const router = useRouter();
