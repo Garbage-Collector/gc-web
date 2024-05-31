@@ -11,8 +11,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'home', component: () => import('pages/HomeMainPage.vue') },
-      { path: 'signin', component: () => import('src/pages/SignInPage.vue') },
-      { path: 'signup', component: () => import('pages/SignUpPage.vue') },
+
       { path: 'feed', component: () => import('pages/Feed/FeedPage.vue') },
       {
         path: 'feed/:id',
@@ -44,7 +43,14 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
+  {
+    path: '/signin', // MainLayout을 사용하지 않는 경로
+    component: () => import('src/pages/SignInPage.vue'),
+  },
+  {
+    path: '/signup', // MainLayout을 사용하지 않는 경로
+    component: () => import('pages/SignUpPage.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
