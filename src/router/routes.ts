@@ -22,7 +22,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Feed/FeedModifyPage.vue'),
       },
       { path: 'map', component: () => import('pages/MapPage.vue') },
-      { path: 'mypage', component: () => import('pages/MyPage.vue') },
+      { path: 'mypage', component: () => import('pages/MyPage/MyPage.vue') },
       {
         path: 'write',
         component: () => import('pages/PloggingWrite/PloggingWritePage.vue'),

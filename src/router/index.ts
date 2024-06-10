@@ -24,7 +24,7 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  //로그인하지 않았을 시 내비게이션 가드
+  // 로그인하지 않았을 시 내비게이션 가드
   Router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     const $q = useQuasar();
