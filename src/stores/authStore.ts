@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { deleteHeaderToken } from 'src/boot/axios';
+import { api, deleteHeaderToken } from 'src/boot/axios';
+import { useProfileStore } from './profileStore';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -25,9 +26,25 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    login() {
-      this.isLoggedIn = true;
-      this.authRequired = false;
+    async login() {
+      // this.authRequired = false;
+
+      try {
+        const profileStore = useProfileStore();
+        const res = await api.post('/users/signin', {
+          email: profileStore.profile.email,
+          password: profileStore.profile.password,
+        });
+        this.isLoggedIn = true;
+        profileStore.profile.id = res.data.id;
+        profileStore.profile.email = res.data.email;
+        profileStore.profile.password = res.data.password;
+        profileStore.profile.nickname = res.data.nickname;
+
+        console.log(`로그인 요청 응답 === [ ${JSON.stringify(res.data)}]`);
+      } catch (error) {
+        console.error('로그인 에러 => ', error);
+      }
     },
     logout() {
       this.isLoggedIn = false;

@@ -79,7 +79,7 @@
 import { useAuthStore } from 'stores/authStore';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { api } from 'boot/axios';
+
 import { useProfileStore } from 'src/stores/profileStore';
 import LottieComponent from 'src/components/LottieComponent.vue';
 
@@ -87,6 +87,7 @@ import animationData from '../assets/trash_lottie.json';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
+const router = useRouter();
 
 const onLoginFail = () => {
   $q.notify({
@@ -107,39 +108,20 @@ const onLoginSuccess = (nickname: string) => {
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
 
-const router = useRouter();
-
 const email = ref('');
 const password = ref('');
 
 const login = async () => {
   //로그인 요청
-  // setHeaderToken('123123');
-  return await api
-    .post('/users/signin', {
-      email: email.value,
-      password: password.value,
-    })
-    .then((res) => {
-      // const token = res.data.token;
-      //
-      // localStorage.setItem('token', token);
-      authStore.login();
-
-      const userProfile = res.data;
-      console.log(`res.data === [${JSON.stringify(res.data)}]`);
-      console.log(`userProfile ===[${userProfile}]`);
-      profileStore.setProfile(userProfile);
-      console.log(`사용자 닉네임 === [${profileStore.profile.nickname}]`);
-      console.log(`사용자 ID === [${profileStore.profile.id}]`);
-      console.log(`사용자 닉네임 === [${profileStore.profile.nickname}]`);
-      console.log('전역 스토어 로그인 상태 : ', authStore.isLoggedIn);
-      onLoginSuccess(profileStore.profile.nickname);
-      router.push('/home');
-    })
-    .catch(() => {
-      onLoginFail();
-    });
+  profileStore.profile.email = email.value;
+  profileStore.profile.password = password.value;
+  await authStore.login();
+  if (authStore.isLoggedIn) {
+    onLoginSuccess(`${profileStore.profile.nickname}`);
+    router.push('/home');
+  } else {
+    onLoginFail();
+  }
 };
 </script>
 

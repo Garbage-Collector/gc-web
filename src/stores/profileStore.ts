@@ -6,6 +6,7 @@ export const useProfileStore = defineStore('profileStore', {
     profile: {
       id: 0,
       email: '',
+      password: '',
       nickname: '',
     },
   }),
