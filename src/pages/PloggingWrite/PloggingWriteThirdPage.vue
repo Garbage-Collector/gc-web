@@ -12,11 +12,6 @@
       <span class="text-grey-6">내가 한 플로깅을 기록으로 남겨보세요!</span>
     </div>
 
-    <div>
-      <!-- <input type="file" @change="handleFileChange" multiple /> -->
-      <!-- <img :src="inputBackgroundImg" class="img_wrapper" alt="" /> -->
-    </div>
-
     <div class="img-wrapper">
       <input
         type="file"
@@ -25,10 +20,14 @@
         class="file-input"
         id="upload-image"
       />
-
-      <!-- <img class="add-box" :src="addBox" alt="addBox" /> -->
       <BaseIcon icon="addBox" class="add-box" />
       <div class="img-text">플로깅을 기록할 사진을 선택해주세요!</div>
+    </div>
+
+    <div v-if="images.length > 0" class="preview-wrapper">
+      <div v-for="(image, index) in images" :key="index" class="preview-image">
+        <img :src="image.preview" alt="Preview Image" />
+      </div>
     </div>
 
     <BaseButton
@@ -51,34 +50,40 @@ import { useRouter } from 'vue-router';
 const ploggingStore = usePloggingStore();
 const router = useRouter();
 
+const images = ref<{ file: File; preview: string }[]>([]);
+
 const handleFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
   if (input.files) {
     const selectedFiles = Array.from(input.files);
-    // 이미 선택된 이미지와 새로 선택된 이미지의 총 수를 계산
     const totalImages = images.value.length + selectedFiles.length;
     if (totalImages > 5) {
       alert('최대 5장의 이미지만 업로드할 수 있습니다.');
-      images.value = images.value.slice(0, 5);
       return;
     }
-    // images 배열에 파일 추가
-    images.value.push(...selectedFiles.slice(0, 5 - images.value.length)); // 5장을 넘지 않도록 파일을 추가
+    selectedFiles.slice(0, 5 - images.value.length).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        images.value.push({ file, preview: e.target?.result as string });
+      };
+      reader.readAsDataURL(file);
+    });
   }
 };
 
 const submitImages = async () => {
-  images.value.forEach((image) => {
-    ploggingStore.addPloggingImage(image);
+  // 이미지가 제대로 추가되는지 확인하기 위한 로그
+  images.value.forEach(({ file }) => {
+    console.log('페이지에서 이미지 값', file);
+    ploggingStore.addPloggingImage(file);
   });
 
-  //모은 form 들 post 호출
+  // 모은 form 들 post 호출
   await ploggingStore.submitPlogging().then(() => {
     router.push('/write-end');
   });
   images.value = []; // 초기화
 };
-const images = ref<File[]>([]);
 </script>
 
 <style scoped>
@@ -119,6 +124,18 @@ const images = ref<File[]>([]);
   height: 100%;
   opacity: 0;
   cursor: pointer;
+}
+.preview-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.preview-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 .next-button {
   margin-top: 24px;

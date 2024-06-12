@@ -118,7 +118,7 @@ const login = async () => {
   await authStore.login();
   if (authStore.isLoggedIn) {
     onLoginSuccess(`${profileStore.profile.nickname}`);
-    router.push('/home');
+    router.push('/init');
   } else {
     onLoginFail();
   }

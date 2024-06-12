@@ -41,6 +41,10 @@ const routes: RouteRecordRaw[] = [
         path: 'write-end',
         component: () => import('pages/PloggingWrite/PloggingWriteEndPage.vue'),
       },
+      {
+        path: 'init',
+        component: () => import('pages/InitPage.vue'),
+      },
     ],
   },
   {
