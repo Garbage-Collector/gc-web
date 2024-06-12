@@ -13,8 +13,7 @@ import RecentRecord from 'components/homeTab/RecentRecord.vue';
 </script>
 
 <style scoped lang="scss">
-
-.home-wrapper{
-  padding:48px 24px;
+.home-wrapper {
+  padding: 48px 24px;
 }
 </style>

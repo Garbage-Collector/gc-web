@@ -4,7 +4,7 @@
 
     <article class="content-wrapper">
       <span class="title">{{ title }}</span>
-      <p class="content">{{ content }}</p>
+      <p class="content">{{ startDt }}</p>
     </article>
   </section>
 </template>
@@ -16,7 +16,7 @@ import { defineProps } from 'vue';
 interface Props {
   photo: string;
   title: string;
-  content: string;
+  startDt: string;
 }
 defineProps<Props>();
 </script>
