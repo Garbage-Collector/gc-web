@@ -18,6 +18,8 @@ defineOptions({
 const route = useRoute();
 
 const layout = computed(() => {
-  return route.path === '/signin' ? 'div' : MainLayout;
+  return route.path === '/signin' || route.path === '/signup'
+    ? 'div'
+    : MainLayout;
 });
 </script>

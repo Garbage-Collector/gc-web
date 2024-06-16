@@ -47,16 +47,16 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+
   {
     path: '/signin', // MainLayout을 사용하지 않는 경로
     component: () => import('src/pages/SignInPage.vue'),
   },
   {
     path: '/signup', // MainLayout을 사용하지 않는 경로
-    component: () => import('pages/SignUpPage.vue'),
+    component: () => import('src/pages/SignUpPage.vue'),
   },
-  // Always leave this as last one,
-  // but you can also remove it
+
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
