@@ -2,7 +2,13 @@
   <!-- <LottieComponent :animationData="animationData" height="200px" /> -->
 
   <section>
-    <q-form @submit.prevent="login">
+
+    <p class="text-bold text-h5 q-mt-xl">회원가입</p>
+    <div class="flex column q-mb-lg">
+      <span class="text-grey-6">회원가입 후 플로깅 해보세요!</span>
+    </div>
+
+    <q-form @submit.prevent="signup">
       <q-input
         bottom-slots
         v-model="email"
@@ -17,12 +23,20 @@
         </template>
 
         <template v-slot:append>
-          <q-icon
-            v-if="email !== ''"
-            name="close"
-            @click="email = ''"
-            class="cursor-pointer"
-          />
+          <div class="flex items-center">
+            <q-btn
+              label="중복확인"
+              color="primary"
+              class="check-button"
+               @click="checkEmail"
+            />
+            <q-icon
+              v-if="email !== ''"
+              name="close"
+              @click="email = ''"
+              class="cursor-pointer"
+            />
+          </div>
         </template>
 
         <template v-slot:hint>
@@ -76,10 +90,16 @@
         </template>
 
         <template v-slot:append>
+          <q-btn
+              label="중복확인"
+              color="primary"
+              class="check-button"
+              @click="checkNickname"
+            />
           <q-icon
-            v-if="email !== ''"
+            v-if="nickname !== ''"
             name="close"
-            @click="email = ''"
+            @click="nickname = ''"
             class="cursor-pointer"
           />
         </template>
@@ -99,51 +119,54 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from 'stores/authStore';
+
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
-import { useProfileStore } from 'src/stores/profileStore';
-
 import { useQuasar } from 'quasar';
+import { api } from 'src/boot/axios';
 
 const $q = useQuasar();
 const router = useRouter();
 
-const onLoginFail = () => {
-  $q.notify({
-    message: '로그인에 실패했습니다.',
-    type: 'negative',
-    position: 'bottom',
-  });
-};
 
-const onLoginSuccess = (nickname: string) => {
-  $q.notify({
-    message: `${nickname}님, 플로깅 하세요!`,
-    type: 'positive',
-    position: 'bottom',
-  });
-};
-
-const authStore = useAuthStore();
-const profileStore = useProfileStore();
 
 const email = ref('');
 const password = ref('');
+const nickname= ref('');
 
-const login = async () => {
-  //로그인 요청
-  profileStore.profile.email = email.value;
-  profileStore.profile.password = password.value;
-  await authStore.login();
-  if (authStore.isLoggedIn) {
-    onLoginSuccess(`${profileStore.profile.nickname}`);
-    router.push('/init');
-  } else {
-    onLoginFail();
-  }
+const signup = async () => {
+  //회원가입 요청
+  return await api
+    .post('/users/signup', {
+      email: email.value,
+      password: password.value,
+      nickname: nickname.value,
+    })
+    .then(() => {
+      // const token = res.data.token;
+      //
+      // localStorage.setItem('token', token);
+      $q.notify({
+        message: '회원가입에 성공했어요! 로그인 해주세요',
+        type: 'positive',
+        position: 'bottom',
+        color: 'green-10',
+      });
+      router.push('/signin');
+    });
 };
+
+//TODO : 닉네임 중복확인 기능 구현
+const checkNickname = () => {
+  console.log("닉네임 중복확인 구현중");
+}
+
+//TODO : 이메일 중복확인 기능 구현
+const checkEmail = () => {
+  console.log("이메일 중복확인 구현중");
+}
+
 </script>
 
 <style scoped>
@@ -161,5 +184,10 @@ p{
 }
 .input-spacing{
   margin-bottom: 24px;
+}
+.check-button{
+  width:90px;
+  margin-bottom: 8px;
+
 }
 </style>
