@@ -54,7 +54,11 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/signup', // MainLayout을 사용하지 않는 경로
-    component: () => import('src/pages/SignUpPage.vue'),
+    component: () => import('src/pages/SignUp/SignUpPage.vue'),
+  },
+  {
+    path: '/signup-verify', // MainLayout을 사용하지 않는 경로
+    component: () => import('src/pages/SignUp/SignUpVerifyPage.vue'),
   },
 
   {

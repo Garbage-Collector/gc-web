@@ -108,7 +108,7 @@
       </q-input>
       <q-btn
         type="submit"
-        label="회원가입 요청하기"
+        label="이메일 인증번호 받기"
         color="green"
         class="login-button text-bold"
       ></q-btn>

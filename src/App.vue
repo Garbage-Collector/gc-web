@@ -18,7 +18,9 @@ defineOptions({
 const route = useRoute();
 
 const layout = computed(() => {
-  return route.path === '/signin' || route.path === '/signup'
+  return route.path === '/signin' ||
+    route.path === '/signup' ||
+    route.path === '/signup-verify'
     ? 'div'
     : MainLayout;
 });
