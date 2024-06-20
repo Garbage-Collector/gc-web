@@ -2,13 +2,12 @@
   <!-- <LottieComponent :animationData="animationData" height="200px" /> -->
 
   <section>
-
     <p class="text-bold text-h5 q-mt-xl">회원가입</p>
     <div class="flex column q-mb-lg">
-      <span class="text-grey-6">회원가입 후 플로깅 해보세요!</span>
+      <span class="text-grey-6">로그인 시 사용할 이메일을 입력해주세요.</span>
     </div>
 
-    <q-form @submit.prevent="signup">
+    <q-form @submit.prevent="checkEmail">
       <q-input
         bottom-slots
         v-model="email"
@@ -17,6 +16,7 @@
         maxlength="50"
         dense
         class="input-spacing"
+        :rules="[emailRule]"
       >
         <template v-slot:before>
           <q-icon name="email" />
@@ -26,9 +26,10 @@
           <div class="flex items-center">
             <q-btn
               label="중복확인"
-              color="primary"
+              :color="isEmailValid ? 'green' : 'grey'"
               class="check-button"
-               @click="checkEmail"
+              @click="checkEmail"
+              :disable="!isEmailValid"
             />
             <q-icon
               v-if="email !== ''"
@@ -44,96 +45,42 @@
         </template>
       </q-input>
 
-      <q-input
-        bottom-slots
-        v-model="password"
-        label="Password"
-        type="password"
-        counter
-        maxlength="20"
-        dense
-        class="input-spacing"
-      >
-        <template v-slot:before>
-          <q-icon name="lock" />
-        </template>
-
-        <template v-slot:append>
-          <q-icon
-            v-if="password !== ''"
-            name="close"
-            @click="password = ''"
-            class="cursor-pointer"
-          />
-        </template>
-
-        <template v-slot:hint>
-          <p>
-            특수문자(~ . ! @ # $ 등)와 영문, 숫자를 포함해
-            <p>8~20 자 이내로
-              작성해주세요.</p>
-          </p>
-        </template>
-      </q-input>
-
-      <q-input
-        bottom-slots
-        v-model="nickname"
-        label="닉네임"
-        counter
-        maxlength="10"
-        dense
-        class="input-spacing"
-      >
-        <template v-slot:before>
-          <q-icon name="badge" />
-        </template>
-
-        <template v-slot:append>
-          <q-btn
-              label="중복확인"
-              color="primary"
-              class="check-button"
-              @click="checkNickname"
-            />
-          <q-icon
-            v-if="nickname !== ''"
-            name="close"
-            @click="nickname = ''"
-            class="cursor-pointer"
-          />
-        </template>
-
-        <template v-slot:hint> 사용할 닉네임을 입력해주세요. </template>
-      </q-input>
       <q-btn
         type="submit"
         label="이메일 인증번호 받기"
-        color="green"
+        :color="isEmailChecked ? 'green' : 'grey'"
         class="login-button text-bold"
+        :disable="!isEmailChecked"
       ></q-btn>
     </q-form>
-
-
   </section>
 </template>
 
 <script setup lang="ts">
-
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { useQuasar } from 'quasar';
 import { api } from 'src/boot/axios';
+import { useProfileStore } from 'src/stores/profileStore';
 
 const $q = useQuasar();
 const router = useRouter();
 
-
+const profileStore = useProfileStore();
 
 const email = ref('');
 const password = ref('');
-const nickname= ref('');
+const nickname = ref('');
+const isEmailChecked = ref(false);
+const isEmailValid = computed(() => {
+  return emailRule(email.value) === true;
+});
+
+const emailRule = (value: string) => {
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailPattern.test(value) || '유효한 이메일을 입력해주세요';
+};
 
 const signup = async () => {
   //회원가입 요청
@@ -157,16 +104,40 @@ const signup = async () => {
     });
 };
 
-//TODO : 닉네임 중복확인 기능 구현
-const checkNickname = () => {
-  console.log("닉네임 중복확인 구현중");
-}
+// 이메일 중복확인 기능 구현
+const checkEmail = async () => {
+  try {
+    const response = await api.get(`/api/users?email=${email.value}`);
 
-//TODO : 이메일 중복확인 기능 구현
-const checkEmail = () => {
-  console.log("이메일 중복확인 구현중");
-}
-
+    if (response.data.available) {
+      profileStore.setEmail(email.value);
+      console.log(`사용자 이메일 === [${profileStore.profile.email}]`);
+      $q.notify({
+        message: '사용 가능한 이메일입니다.',
+        type: 'positive',
+        position: 'bottom',
+        color: 'green-10',
+      });
+      isEmailChecked.value = true;
+    } else {
+      $q.notify({
+        message: '이미 사용 중인 이메일입니다. 다른 이메일을 사용해주세요.',
+        type: 'negative',
+        position: 'bottom',
+        color: 'red-10',
+      });
+      isEmailChecked.value = false;
+    }
+  } catch (error) {
+    $q.notify({
+      message: '이메일 중복확인 중 오류가 발생했습니다. 다시 시도해주세요.',
+      type: 'negative',
+      position: 'bottom',
+      color: 'red-10',
+    });
+    isEmailChecked.value = false;
+  }
+};
 </script>
 
 <style scoped>
@@ -179,15 +150,14 @@ section {
   margin-top: 64px;
   padding: 8px 24px;
 }
-p{
+p {
   line-height: 18px;
 }
-.input-spacing{
+.input-spacing {
   margin-bottom: 24px;
 }
-.check-button{
-  width:90px;
+.check-button {
+  width: 90px;
   margin-bottom: 8px;
-
 }
 </style>

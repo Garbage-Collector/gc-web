@@ -14,5 +14,14 @@ export const useProfileStore = defineStore('profileStore', {
     setProfile(profile: UserProfile) {
       this.profile = profile;
     },
+    setEmail(email: string) {
+      this.profile.email = email;
+    },
+    setPassword(password: string) {
+      this.profile.password = password;
+    },
+    setNickname(nickname: string) {
+      this.profile.nickname = nickname;
+    },
   },
 });

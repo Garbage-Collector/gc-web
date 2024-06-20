@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', {
     isLoggedIn: false,
     authRequired: false,
     token: '',
+    verifyCode: 1234,
   }),
   getters: {
     getUserToken(state) {
@@ -67,6 +68,13 @@ export const useAuthStore = defineStore('auth', {
       deleteHeaderToken();
       this.token = '';
       this.authenticated = false;
+    },
+    /**
+     * 이메일 인증번호를 스토어에 저장하는 함수
+     * @param verifyCode 서버로부터 받아온 이메일 인증번호
+     */
+    setVerifyCode(verifyCode: number) {
+      this.verifyCode = verifyCode;
     },
   },
 });

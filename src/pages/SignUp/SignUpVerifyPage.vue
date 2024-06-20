@@ -10,10 +10,11 @@
       <span class="text-black-5 text-bold">인증번호를 입력해주세요. </span>
     </div>
 
-    <q-form @submit.prevent="signup">
+    <q-form @submit.prevent="verifyCodeAndSignup">
       <q-input
         bottom-slots
         v-model="verifyCode"
+        type="number"
         label="인증번호"
         dense
         class="input-spacing"
@@ -23,6 +24,13 @@
           <q-icon name="check" />
         </template>
       </q-input>
+
+      <div v-if="remainingTime > 0">
+        <p class="verify-text">인증번호 유효 시간: {{ remainingTime }}초</p>
+      </div>
+      <div v-else>
+        <p class="verify-text">인증번호가 만료되었습니다. 다시 요청해주세요.</p>
+      </div>
 
       <p class="verify-text">인증번호를 받지 못하셨나요?</p>
       <p class="verify-text">📧인증번호 다시 보내기</p>
@@ -40,17 +48,53 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 import { useQuasar } from 'quasar';
 import { api } from 'src/boot/axios';
+import { useAuthStore } from 'src/stores/authStore';
+import { useProfileStore } from 'src/stores/profileStore';
+import { isJSDocLinkLike } from 'typescript';
 
 const $q = useQuasar();
 const router = useRouter();
-
-const email = ref('wisoft-garbage-collector@gmail.com');
-
 const verifyCode = ref();
+
+const authStore = useAuthStore();
+const profileStore = useProfileStore();
+
+const email = ref(profileStore.profile.email);
+
+//타이머
+const remainingTime = ref(60);
+let timer: number | undefined;
+
+const startTimer = () => {
+  timer = setInterval(() => {
+    if (remainingTime.value > 0) {
+      remainingTime.value -= 1;
+    } else {
+      clearInterval(timer);
+      authStore.setVerifyCode(0);
+    }
+  }, 1000);
+};
+
+const verifyCodeAndSignup = () => {
+  console.log(verifyCode.value);
+  console.log(authStore.verifyCode);
+  if (verifyCode.value == authStore.verifyCode && remainingTime.value > 0) {
+    alert('인증 성공');
+    router.push('/signup-third');
+  } else {
+    $q.notify({
+      message: '인증번호가 올바르지 않습니다. 다시 확인해주세요.',
+      type: 'negative',
+      position: 'bottom',
+      color: 'red-10',
+    });
+  }
+};
 
 const signup = async () => {
   //회원가입 요청
@@ -73,6 +117,16 @@ const signup = async () => {
       router.push('/signin');
     });
 };
+
+onMounted(() => {
+  startTimer();
+});
+
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer);
+  }
+});
 </script>
 
 <style scoped>
