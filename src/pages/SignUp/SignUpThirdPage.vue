@@ -15,7 +15,7 @@
         v-model="email"
         label="E-mail"
         counter
-        maxlength="20"
+        maxlength="50"
         dense
         class="input-spacing"
       >
@@ -35,7 +35,7 @@
         v-model="password"
         label="비밀번호"
         counter
-        maxlength="50"
+        maxlength="20"
         dense
         class="input-spacing"
         type="password"
@@ -95,9 +95,9 @@
       <q-btn
         type="submit"
         label="회원가입 하기"
-        :color="isNicknameValid ? 'green' : 'grey'"
+        :color="isNicknameChcked ? 'green' : 'grey'"
         class="login-button text-bold"
-        :disable="!isNicknameValid"
+        :disable="!isNicknameChcked"
       ></q-btn>
     </q-form>
   </section>
@@ -119,7 +119,7 @@ const profileStore = useProfileStore();
 const email = ref(profileStore.profile.email);
 const password = ref('');
 const nickname = ref('');
-const isEmailChecked = ref(false);
+const isNicknameChcked = ref(false);
 const isNicknameValid = computed(() => {
   return nicknameRule(nickname.value) === true;
 });
@@ -174,7 +174,7 @@ const checkNickname = async () => {
         position: 'bottom',
         color: 'green-10',
       });
-      isEmailChecked.value = true;
+      isNicknameChcked.value = true;
     } else {
       $q.notify({
         message: '이미 사용 중인 닉네임입니다. 다른 닉네임을 사용해주세요.',
@@ -182,7 +182,7 @@ const checkNickname = async () => {
         position: 'bottom',
         color: 'red-10',
       });
-      isEmailChecked.value = false;
+      isNicknameChcked.value = false;
     }
   } catch (error) {
     $q.notify({
@@ -191,7 +191,7 @@ const checkNickname = async () => {
       position: 'bottom',
       color: 'red-10',
     });
-    isEmailChecked.value = false;
+    isNicknameChcked.value = false;
   }
 };
 </script>
