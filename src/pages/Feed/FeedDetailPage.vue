@@ -77,8 +77,9 @@ const record = ref({
 
 const fetchSingleRecord = async () => {
   await api.get(`/records/${userId}/${recordId}`).then((res) => {
+    console.log(`res.data === [${JSON.stringify(res.data)}]`);
     console.log(res.data.record);
-    record.value = res.data.record;
+    record.value = res.data;
   });
 };
 

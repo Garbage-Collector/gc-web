@@ -1,7 +1,8 @@
 export const formatResponseData = (responseData) => {
   const baseUrl = import.meta.env.VITE_BASE_URL.slice(0, -4);
+  console.log(`responseData === [${JSON.stringify(responseData)}]`);
 
-  return responseData.records.map((record) => ({
+  return responseData.map((record) => ({
     id: record.id,
     title: record.title,
     startDate: record.startTime,

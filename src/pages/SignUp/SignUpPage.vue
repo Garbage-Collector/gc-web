@@ -7,7 +7,7 @@
       <span class="text-grey-6">로그인 시 사용할 이메일을 입력해주세요.</span>
     </div>
 
-    <q-form @submit.prevent="checkEmail">
+    <q-form @submit.prevent="getVerifyCode">
       <q-input
         bottom-slots
         v-model="email"
@@ -63,15 +63,16 @@ import { computed, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { api } from 'src/boot/axios';
 import { useProfileStore } from 'src/stores/profileStore';
+import { useAuthStore } from 'src/stores/authStore';
 
 const $q = useQuasar();
 const router = useRouter();
 
 const profileStore = useProfileStore();
+const authStore = useAuthStore();
 
 const email = ref('');
-const password = ref('');
-const nickname = ref('');
+
 const isEmailChecked = ref(false);
 const isEmailValid = computed(() => {
   return emailRule(email.value) === true;
@@ -82,32 +83,28 @@ const emailRule = (value: string) => {
   return emailPattern.test(value) || '유효한 이메일을 입력해주세요';
 };
 
-const signup = async () => {
-  //회원가입 요청
-  return await api
-    .post('/users/signup', {
-      email: email.value,
-      password: password.value,
-      nickname: nickname.value,
-    })
-    .then(() => {
-      // const token = res.data.token;
-      //
-      // localStorage.setItem('token', token);
-      $q.notify({
-        message: '회원가입에 성공했어요! 로그인 해주세요',
-        type: 'positive',
-        position: 'bottom',
-        color: 'green-10',
-      });
-      router.push('/signin');
+const getVerifyCode = async () => {
+  try {
+    const response = await api.get(`/auth/mail?email=${email.value}`);
+
+    authStore.setVerifyCode(response.data['verify-code']);
+    router.push('signup-verify');
+    console.log(`응답 값 ===[${JSON.stringify(response.data)}]`);
+    console.log(`스토어 인증번호 값 ===[${authStore.verifyCode}]`);
+  } catch (error) {
+    $q.notify({
+      message: '인증번호 발송에 실패했어요. 다시 시도해주세요.',
+      type: 'negative',
+      position: 'bottom',
+      color: 'red-10',
     });
+  }
 };
 
 // 이메일 중복확인 기능 구현
 const checkEmail = async () => {
   try {
-    const response = await api.get(`/api/users?email=${email.value}`);
+    const response = await api.get(`/users/email-check?email=${email.value}`);
 
     if (response.data.available) {
       profileStore.setEmail(email.value);

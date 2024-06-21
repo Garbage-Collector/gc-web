@@ -25,26 +25,28 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   // 로그인하지 않았을 시 내비게이션 가드
-  // Router.beforeEach((to, from, next) => {
-  //   const authStore = useAuthStore();
-  //   const $q = useQuasar();
+  Router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    const $q = useQuasar();
 
-  //   if (
-  //     !authStore.isLoggedIn &&
-  //     to.path !== '/signin' &&
-  //     to.path !== '/signup'
-  //   ) {
-  //     $q.notify({
-  //       message: '로그인 후 이용해주세요',
-  //       type: 'negative',
-  //       position: 'bottom',
-  //       color: 'red',
-  //     });
-  //     next('/signin');
-  //   } else {
-  //     next();
-  //   }
-  // });
+    if (
+      !authStore.isLoggedIn &&
+      to.path !== '/signin' &&
+      to.path !== '/signup' &&
+      to.path !== '/signup-verify' &&
+      to.path !== '/signup-third'
+    ) {
+      $q.notify({
+        message: '로그인 후 이용해주세요',
+        type: 'negative',
+        position: 'bottom',
+        color: 'red',
+      });
+      next('/signin');
+    } else {
+      next();
+    }
+  });
 
   return Router;
 });

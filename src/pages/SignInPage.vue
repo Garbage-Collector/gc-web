@@ -113,6 +113,7 @@ const password = ref('');
 
 const login = async () => {
   //로그인 요청
+
   profileStore.profile.email = email.value;
   profileStore.profile.password = password.value;
   await authStore.login();

@@ -163,7 +163,9 @@ const signup = async () => {
 // 닉네임 중복 확인 기능 구현
 const checkNickname = async () => {
   try {
-    const response = await api.get(`/api/users?nickname=${nickname.value}`);
+    const response = await api.get(
+      `/users/nickname-check?nickname=${nickname.value}`,
+    );
 
     if (response.data.available) {
       profileStore.setNickname(nickname.value);

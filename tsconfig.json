@@ -2,10 +2,14 @@
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
     "noImplicitAny": false,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "strict": false,
+    "ignoreDeprecations": "5.0",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
   "exclude": [
-    "./dist",
+    "./dist/pwa",
     "./.quasar",
     "./node_modules",
     "./src-capacitor",
@@ -14,5 +18,5 @@
   ],
   "typeRoots": [
     "src/types"
-  ],
+  ]
 }

@@ -51,10 +51,8 @@ import { useRouter } from 'vue-router';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 import { useQuasar } from 'quasar';
-import { api } from 'src/boot/axios';
 import { useAuthStore } from 'src/stores/authStore';
 import { useProfileStore } from 'src/stores/profileStore';
-import { isJSDocLinkLike } from 'typescript';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -70,7 +68,7 @@ const remainingTime = ref(60);
 let timer: number | undefined;
 
 const startTimer = () => {
-  timer = setInterval(() => {
+  timer = window.setInterval(() => {
     if (remainingTime.value > 0) {
       remainingTime.value -= 1;
     } else {
@@ -94,28 +92,6 @@ const verifyCodeAndSignup = () => {
       color: 'red-10',
     });
   }
-};
-
-const signup = async () => {
-  //회원가입 요청
-  return await api
-    .post('/users/signup', {
-      email: email.value,
-      password: password.value,
-      nickname: nickname.value,
-    })
-    .then(() => {
-      // const token = res.data.token;
-      //
-      // localStorage.setItem('token', token);
-      $q.notify({
-        message: '회원가입에 성공했어요! 로그인 해주세요',
-        type: 'positive',
-        position: 'bottom',
-        color: 'green-10',
-      });
-      router.push('/signin');
-    });
 };
 
 onMounted(() => {

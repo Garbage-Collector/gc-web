@@ -32,10 +32,12 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         const profileStore = useProfileStore();
+
         const res = await api.post('/users/signin', {
           email: profileStore.profile.email,
           password: profileStore.profile.password,
         });
+
         this.isLoggedIn = true;
         profileStore.profile.id = res.data.id;
         profileStore.profile.email = res.data.email;
