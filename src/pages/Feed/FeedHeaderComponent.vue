@@ -2,7 +2,7 @@
   <section class="header">
     <div class="flex">
       <q-avatar size="60px">
-        <img src="../../assets/logo.png" alt="default_image" />
+        <img :src="profileImage" alt="default_image" />
         <q-img :src="profile" />
       </q-avatar>
       <span class="flex column q-mt-sm q-ml-sm">
@@ -25,6 +25,7 @@ import { useProfileStore } from 'src/stores/profileStore';
 import { ref, defineProps } from 'vue';
 
 const profileStore = useProfileStore();
+const profileImage = profileStore.profile.profileImage;
 
 type Props = {
   ploggingCount: number;

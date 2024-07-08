@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { api } from 'src/boot/axios';
+import { api, setHeaderToken } from 'src/boot/axios';
 import { appendFormData } from 'src/utils/setFormData';
 import { useProfileStore } from './profileStore';
 import { formatResponseData } from 'src/utils/formatRecordData';
@@ -76,11 +76,12 @@ export const usePloggingStore = defineStore('plogging', {
     },
     async getPloggingRecord() {
       try {
+        setHeaderToken(localStorage.getItem('accessToken'));
         const response = await api.get(`/records/${profileStore.profile.id}`);
         console.log(`전체 조회 응답 === [${JSON.stringify(response.data)}]`);
         this.ploggingRecord = formatResponseData(response.data);
       } catch (error) {
-        console.error('데이터를 불러오는 중 오류 발생:', error);
+        console.error('플로깅 기록 데이터 호출 중 에러 발생:', error);
       }
     },
   },

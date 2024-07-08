@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from 'src/stores/authStore';
 import { usePloggingStore } from 'src/stores/ploggingStore';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -22,12 +23,14 @@ const router = useRouter();
 const loading = ref(true);
 
 const ploggingStore = usePloggingStore();
+const authStore = useAuthStore();
 onMounted(async () => {
   try {
     await ploggingStore.getPloggingRecord();
     console.log(
       `플로깅 기록 ===[${JSON.stringify(ploggingStore.ploggingRecord)}]`,
     );
+    await authStore.refreshToken();
   } finally {
     setTimeout(() => {
       loading.value = false; // 로딩 완료 후 모달 닫기

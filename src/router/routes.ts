@@ -45,6 +45,23 @@ const routes: RouteRecordRaw[] = [
         path: 'init',
         component: () => import('pages/InitPage.vue'),
       },
+      {
+        path: 'checkPassword',
+        component: () => import('pages/MyPage/CheckPasswordPage.vue'),
+      },
+      {
+        path: 'checkPasswordForNickname',
+        component: () =>
+          import('pages/MyPage/CheckPasswordForNicknamePage.vue'),
+      },
+      {
+        path: 'changePassword',
+        component: () => import('pages/MyPage/ChangePasswordPage.vue'),
+      },
+      {
+        path: 'changeNickname',
+        component: () => import('pages/MyPage/ChangeNicknamePage.vue'),
+      },
     ],
   },
 

@@ -8,6 +8,7 @@ export const useProfileStore = defineStore('profileStore', {
       email: '',
       password: '',
       nickname: '',
+      profileImage: '',
     },
   }),
   actions: {
@@ -22,6 +23,9 @@ export const useProfileStore = defineStore('profileStore', {
     },
     setNickname(nickname: string) {
       this.profile.nickname = nickname;
+    },
+    setProfileImage(profileImage: string) {
+      this.profileImage = profileImage;
     },
   },
 });

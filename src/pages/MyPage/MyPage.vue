@@ -2,190 +2,184 @@
   <section class="main-wrapper">
     <div class="profile-wrapper">
       <q-avatar size="60px">
-        <img src="../../assets/logo.png" alt="default_image" />
+        <img :src="profileImage" alt="default_image" />
       </q-avatar>
-      <q-btn class="upload-photo" label="Upload Photo"> </q-btn>
+      <input
+        type="file"
+        ref="fileInput"
+        accept="image/*"
+        @change="onFileChange"
+        style="display: none"
+      />
+      <q-btn
+        class="upload-photo"
+        :class="{ 'upload-photo-active': isImageUploaded }"
+        :label="buttonLabel"
+        @click="uploadPhoto"
+      >
+      </q-btn>
     </div>
 
-    <div class="frame-1321314473">
-      <div class="div">닉네임</div>
-      <div class="juno">Juno</div>
-      <div class="frame-1321314474">
-        <div class="edit">Edit</div>
+    <div class="nickname-wrapper">
+      <div class="info-group">
+        <div class="label">닉네임</div>
+        <div class="value">{{ profileStore.profile.nickname }}</div>
+        <q-btn
+          class="edit-button"
+          label="Edit"
+          to="/checkPasswordForNickname"
+        ></q-btn>
       </div>
-      <div class="email">Email</div>
-      <div class="siddxd-growthx-com">siddxd@growthx.com</div>
-      <div class="frame-1321314475">
-        <div class="edit">Edit</div>
+      <div class="info-group">
+        <div class="label">Email</div>
+        <div class="value">{{ profileStore.profile.email }}</div>
       </div>
-      <div class="div2">자주 플로깅하는 장소</div>
-      <div class="div3">대전시 덕명동</div>
-      <div class="frame-1321314476">
-        <div class="edit">Edit</div>
+      <div class="info-group">
+        <div class="label">비밀번호 변경</div>
+        <q-btn class="edit-button" label="Edit" to="/checkPassword"></q-btn>
+      </div>
+      <div class="info-group">
+        <div class="label">자주 플로깅하는 장소</div>
+        <div class="value">대전시 덕명동</div>
+        <q-btn class="edit-button" label="Edit"></q-btn>
       </div>
     </div>
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { useProfileStore } from 'src/stores/profileStore';
+import { api } from 'src/boot/axios';
+
+const profileStore = useProfileStore();
+// const defaultImage = new URL('../../assets/logo.png', import.meta.url).href;
+const profileImage = ref(profileStore.profile.profileImage);
+const fileInput = ref(null);
+const buttonLabel = ref('Upload Photo');
+const isImageUploaded = ref(false);
+let uploadedFile = null;
+
+const uploadPhoto = () => {
+  if (isImageUploaded.value && uploadedFile) {
+    uploadProfileImage();
+  } else {
+    fileInput.value.click();
+  }
+};
+
+const onFileChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      if (e.target && e.target.result) {
+        profileImage.value = e.target.result as string;
+        buttonLabel.value = '프로필 이미지 변경';
+        isImageUploaded.value = true;
+        uploadedFile = file;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const uploadProfileImage = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('profile-image', uploadedFile);
+
+    const response = await api.patch('/users/profile-image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    if (response.status === 200) {
+      profileStore.profile.profileImage =
+        import.meta.env.VITE_BASE_URL + response.data['profile-image'];
+
+      alert('프로필 이미지 변경 성공');
+    }
+  } catch (error) {
+    console.error('Error uploading profile image:', error);
+  }
+};
+
+onMounted(() => {
+  console.log(`이메일 값 === [${profileStore.profile.email}]`);
+  console.log(`프로필 이미지 값 === [${profileStore.profile.profileImage}]`);
+});
+</script>
 
 <style scoped lang="scss">
 .main-wrapper {
   padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .upload-photo {
   width: 120px;
-  height: 10px;
+  height: 30px;
   border-radius: 100px;
   background: #f0effa;
   font-size: 12px;
   margin-top: 12px;
 }
-.profile-wrapper {
+
+.upload-photo-active {
+  background: #4caf50 !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+  font-size: 10px;
+}
+
+.nickname-wrapper {
+  margin-top: 36px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  width: 100%;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
+  gap: 32px;
 }
-.frame-1321314473,
-.frame-1321314473 * {
-  box-sizing: border-box;
+
+.info-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.frame-1321314473 {
-  margin: 36px 0 0 0;
-  border-radius: 5px;
-  border-style: solid;
-  border-color: var(--input-box-stroke-thin, rgba(0, 0, 0, 0.15));
-  border-width: 1px;
-  flex-shrink: 0;
-  height: 277px;
-  position: relative;
-  box-shadow: var(
-    --thin-shadow-2-2-10-box-shadow,
-    0px 2px 2px 0px rgba(0, 0, 0, 0.1)
-  );
-  overflow: hidden;
-}
-.div {
+
+.label {
   color: rgba(31, 31, 31, 0.7);
-  text-align: left;
   font-family: 'Outfit-Medium', sans-serif;
   font-size: 12px;
   font-weight: 500;
-  position: absolute;
-  left: 16px;
-  top: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
 }
-.juno {
+
+.value {
   color: rgba(34, 34, 34, 0.9);
-  text-align: left;
   font-family: 'Outfit-Medium', sans-serif;
   font-size: 12px;
   font-weight: 500;
-  position: absolute;
-  left: 16px;
-  top: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
 }
-.frame-1321314474 {
+
+.edit-button {
   background: #f0effa;
   border-radius: 72.66px;
-  padding: 3.63px 11.63px 3.63px 11.63px;
-  width: 46px;
-  height: 18px;
-  position: absolute;
-  left: 271px;
-  top: 40px;
-  overflow: hidden;
-}
-.edit {
-  color: var(--dark-all-content, rgba(31, 31, 31, 0.8));
-  text-align: left;
-  font-family: 'Outfit-Medium', sans-serif;
-  font-size: 7.266055583953857px;
-  font-weight: 500;
-  position: absolute;
-  left: calc(50% - 6px);
-  top: calc(50% - 4px);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.email {
-  color: rgba(31, 31, 31, 0.7);
-  text-align: left;
-  font-family: 'Outfit-Medium', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  position: absolute;
-  left: 16px;
-  top: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.siddxd-growthx-com {
-  color: rgba(34, 34, 34, 0.9);
-  text-align: left;
-  font-family: 'Outfit-Medium', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  position: absolute;
-  left: 16px;
-  top: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.frame-1321314475 {
-  background: #f0effa;
-  border-radius: 72.66px;
-  padding: 3.63px 11.63px 3.63px 11.63px;
-  width: 46px;
-  height: 18px;
-  position: absolute;
-  left: 271px;
-  top: 98px;
-  overflow: hidden;
-}
-.div2 {
-  color: rgba(31, 31, 31, 0.7);
-  text-align: left;
-  font-family: 'Outfit-Medium', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  position: absolute;
-  left: 16px;
-  top: 134px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.div3 {
-  color: rgba(34, 34, 34, 0.9);
-  text-align: left;
-  font-family: 'Outfit-Medium', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  position: absolute;
-  left: 16px;
-  top: 158px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.frame-1321314476 {
-  background: #f0effa;
-  border-radius: 72.66px;
-  padding: 3.63px 11.63px 3.63px 11.63px;
-  width: 46px;
-  height: 18px;
-  position: absolute;
-  left: 271px;
-  top: 156px;
-  overflow: hidden;
+  padding: 3px 11px;
+  font-size: 7px;
+  font-weight: bold;
 }
 </style>

@@ -2,7 +2,7 @@
   <section class="flex items-center justify-between">
     <div class="flex">
       <q-avatar size="60px">
-        <img src="../../assets/logo.png" alt="" />
+        <img :src="profileImage" alt="profileImage" />
         <q-img :src="profile" />
       </q-avatar>
       <span class="flex column q-mt-sm q-ml-sm">
@@ -27,6 +27,7 @@ import { useProfileStore } from 'src/stores/profileStore';
 import { ref } from 'vue';
 
 const profileStore = useProfileStore();
+const profileImage = profileStore.profile.profileImage;
 
 const userName = ref(profileStore.profile.nickname);
 const grade = ref('비기너');

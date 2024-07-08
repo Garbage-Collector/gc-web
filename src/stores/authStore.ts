@@ -1,27 +1,33 @@
 import { defineStore } from 'pinia';
-import { api, deleteHeaderToken } from 'src/boot/axios';
+import { api, deleteHeaderToken, setHeaderToken } from 'src/boot/axios';
 import { useProfileStore } from './profileStore';
+import { jwtDecode } from 'jwt-decode';
+
+interface DecodedToken {
+  exp: number;
+}
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     authenticated: localStorage.getItem('accessToken') ? true : false,
     isLoggedIn: false,
     authRequired: false,
-    token: '',
+    accessToken: '',
+    refreshToken: '',
     verifyCode: 1234,
   }),
   getters: {
     getUserToken(state) {
       try {
         const token = localStorage.getItem('accessToken') ?? '';
-        state.token = token;
-        return state.token;
+        state.accessToken = token;
+        return state.accessToken;
       } catch {
         localStorage.removeItem('accessToken');
         deleteHeaderToken();
-        state.token = '';
+        state.accessToken = '';
         this.authenticated = false;
-        return state.token;
+        return state.accessToken;
       }
     },
   },
@@ -40,10 +46,16 @@ export const useAuthStore = defineStore('auth', {
 
         this.isLoggedIn = true;
         profileStore.profile.id = res.data.id;
-        profileStore.profile.email = res.data.email;
         profileStore.profile.password = res.data.password;
         profileStore.profile.nickname = res.data.nickname;
+        profileStore.profile.profileImage =
+          import.meta.env.VITE_BASE_URL.slice(0, -4) +
+          res.data['profile-image'];
 
+        this.setToken(res.data.accessToken, res.data.refreshToken);
+        console.log(res.data);
+        console.log(`액세스 토큰 값 === [${this.token}]`);
+        console.log(`프로필 이미지 === [${profileStore.profile.profileImage}]`);
         console.log(`로그인 요청 응답 === [ ${JSON.stringify(res.data)}]`);
       } catch (error) {
         console.error('로그인 에러 => ', error);
@@ -56,9 +68,10 @@ export const useAuthStore = defineStore('auth', {
      * JWT를 로컬 스토리지에 저장
      * @param token JSON 데이터 중 accessToken 키값
      */
-    setToken(token: string) {
-      localStorage.setItem('accessToken', token);
-      this.token = token;
+    setToken(accessToken: string, refreshToken: string) {
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      this.token = accessToken;
       this.authenticated = true;
     },
 
@@ -77,6 +90,35 @@ export const useAuthStore = defineStore('auth', {
      */
     setVerifyCode(verifyCode: number) {
       this.verifyCode = verifyCode;
+    },
+
+    async refreshToken() {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!accessToken || !refreshToken) {
+          throw new Error('No tokens available');
+        }
+
+        const decoded: DecodedToken = jwtDecode(accessToken);
+        console.log(`디코딩된 jwt 값 === [${JSON.stringify(decoded)}]`);
+        const currentTime = Math.floor(Date.now() / 1000);
+        const timeLeft = decoded.exp - currentTime;
+
+        if (timeLeft < 300) {
+          // 5 minutes
+          setHeaderToken(refreshToken);
+          const response = await api.post('/auth/token/access');
+          const newAccessToken = response.data.accessToken;
+          localStorage.setItem('accessToken', newAccessToken);
+
+          this.accessToken = newAccessToken;
+
+          console.log(`갱신한 액세스 토큰 === [${newAccessToken}]`);
+        }
+      } catch (error) {
+        console.error('Error refreshing token:', error);
+      }
     },
   },
 });
