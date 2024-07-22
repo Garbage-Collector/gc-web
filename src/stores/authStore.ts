@@ -97,7 +97,7 @@ export const useAuthStore = defineStore('auth', {
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
         if (!accessToken || !refreshToken) {
-          throw new Error('No tokens available');
+          throw new Error('사용 가능한 토큰이 없음');
         }
 
         const decoded: DecodedToken = jwtDecode(accessToken);
@@ -106,7 +106,7 @@ export const useAuthStore = defineStore('auth', {
         const timeLeft = decoded.exp - currentTime;
 
         if (timeLeft < 300) {
-          // 5 minutes
+          // 5분
           setHeaderToken(refreshToken);
           const response = await api.post('/auth/token/access');
           const newAccessToken = response.data.accessToken;
