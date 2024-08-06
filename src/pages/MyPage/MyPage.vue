@@ -39,9 +39,9 @@
         <q-btn class="edit-button" label="Edit" to="/checkPassword"></q-btn>
       </div>
       <div class="info-group">
-        <div class="label">자주 플로깅하는 장소</div>
-        <div class="value">대전시 덕명동</div>
-        <q-btn class="edit-button" label="Edit"></q-btn>
+        <div class="label">로그아웃</div>
+        <!-- <div class="value">대전시 덕명동</div> -->
+        <q-btn class="edit-button" label="Logout" @click="logout"></q-btn>
       </div>
     </div>
   </section>
@@ -51,9 +51,13 @@
 import { onMounted, ref } from 'vue';
 import { useProfileStore } from 'src/stores/profileStore';
 import { api } from 'src/boot/axios';
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 const profileStore = useProfileStore();
-// const defaultImage = new URL('../../assets/logo.png', import.meta.url).href;
+const router = useRouter();
+const $q = useQuasar();
+
 const profileImage = ref(profileStore.profile.profileImage);
 const fileInput = ref(null);
 const buttonLabel = ref('Upload Photo');
@@ -103,6 +107,20 @@ const uploadProfileImage = async () => {
     }
   } catch (error) {
     console.error('Error uploading profile image:', error);
+  }
+};
+
+const logout = async () => {
+  try {
+    localStorage.removeItem('accessToken'); // 토큰 제거
+    $q.notify({
+      message: '로그아웃 되었습니다.',
+      type: 'positive',
+      position: 'bottom',
+    });
+    router.push('/'); // 홈 화면으로 리디렉션
+  } catch (error) {
+    console.error('Error during logout:', error);
   }
 };
 
@@ -181,5 +199,15 @@ onMounted(() => {
   padding: 3px 11px;
   font-size: 7px;
   font-weight: bold;
+}
+
+.logout-button {
+  background: #f0effa;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 20px;
+  align-self: center;
 }
 </style>

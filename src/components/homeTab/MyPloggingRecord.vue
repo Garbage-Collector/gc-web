@@ -1,18 +1,18 @@
 <template>
   <section>
-    <p class="text-h6 text-weight-bold q-mt-xl">나의 플로깅 기록</p>
+    <p class="text-h6 text-weight-bold q-mt-xl"></p>
 
     <q-card class="my-card">
       <q-img :src="joggingImg">
         <div class="absolute-bottom">
           <span class="card-text text-h6 text-black text-bold"
-            >홍천 비발디파크 플로깅</span
+            >Garbage Collect</span
           >
-          <span class="card-text text-subtitle2 text-green-4"
-            >2024.01.12 (일)
+          <span class="card-text text-subtitle2 text-green-4">
+            {{ formattedDate }}
           </span>
           <span class="card-text text-subtitle2 text-grey-7"
-            >워크숍에서 박사님과 함께한 플로깅</span
+            >오늘의 플로깅을 기록해보세요!</span
           >
         </div>
       </q-img>
@@ -21,7 +21,26 @@
 </template>
 
 <script setup lang="ts">
-import joggingImg from '../../assets/조깅이미지.svg';
+import { ref, onMounted } from 'vue';
+import joggingImg from '../../assets/피드이미지.png';
+
+// Helper function to get the day of the week in Korean
+function getDayOfWeek(day) {
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  return days[day];
+}
+
+const formattedDate = ref('');
+
+onMounted(() => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const date = String(today.getDate()).padStart(2, '0');
+  const day = getDayOfWeek(today.getDay());
+
+  formattedDate.value = `${year}.${month}.${date} (${day})`;
+});
 </script>
 
 <style scoped lang="scss">
