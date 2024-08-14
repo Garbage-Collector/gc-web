@@ -37,20 +37,37 @@
       text="완료"
       @click="submitImages"
     />
+
+    <!-- Dialog 컴포넌트 -->
+    <q-dialog v-model="dialogVisible">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">알림</div>
+        </q-card-section>
+
+        <q-card-section>
+          <p>사진을 1장 이상 업로드해주세요.</p>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="확인" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </section>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import BaseButton from 'components/BaseComponent/BaseButton.vue';
 import BaseIcon from 'src/components/BaseComponent/BaseIcon.vue';
 import { usePloggingStore } from 'src/stores/ploggingStore';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 const ploggingStore = usePloggingStore();
 const router = useRouter();
-
 const images = ref<{ file: File; preview: string }[]>([]);
+const dialogVisible = ref(false);
 
 const handleFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
@@ -72,16 +89,20 @@ const handleFileChange = (event: Event) => {
 };
 
 const submitImages = async () => {
-  // 이미지가 제대로 추가되는지 확인하기 위한 로그
+  if (images.value.length === 0) {
+    dialogVisible.value = true;
+    return;
+  }
+
   images.value.forEach(({ file }) => {
     console.log('페이지에서 이미지 값', file);
     ploggingStore.addPloggingImage(file);
   });
 
-  // 모은 form 들 post 호출
   await ploggingStore.submitPlogging().then(() => {
     router.push('/write-end');
   });
+
   images.value = []; // 초기화
 };
 </script>

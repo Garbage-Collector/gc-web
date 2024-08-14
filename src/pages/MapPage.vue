@@ -176,6 +176,7 @@ function getCurrentLocation(callback: (lat: number, lng: number) => void) {
       (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
+        console.log(`lat === [${lat}], lng === [${lng}]`);
         callback(lat, lng);
       },
       (error) => {

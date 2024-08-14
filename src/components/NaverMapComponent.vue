@@ -1,6 +1,6 @@
 <script setup>
 import { NaverMap, NaverMarker, NaverPolyline } from 'vue3-naver-maps';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps({
   datas: {
@@ -15,16 +15,31 @@ const mapOptions = ref({
   zoomControl: false,
   zoomControlOptions: { position: 'TOP_RIGHT' },
 });
+
+onMounted(() => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        mapOptions.value.latitude = position.coords.latitude;
+        mapOptions.value.longitude = position.coords.longitude;
+      },
+      (error) => {
+        console.error('Error getting location: ', error);
+      },
+    );
+  } else {
+    console.error('Geolocation is not supported by this browser.');
+  }
+});
 </script>
 
 <template>
-  <naver-map style="width: 100%; height: 500px" :mapOptions="mapOptions">
+  <naver-map :mapOptions="mapOptions" style="width: 100%; height: 500px">
     <naver-marker
       v-for="data in props.datas"
       :key="data.id"
       :latitude="data.lat"
       :longitude="data.lng"
-      @click="console.log('tset')"
     >
       <div class="marker">
         <img
@@ -34,7 +49,7 @@ const mapOptions = ref({
       </div>
     </naver-marker>
     <naver-polyline
-      :path="datas.map((data) => ({ lat: data.lat, lng: data.lng }))"
+      :path="props.datas.map((data) => ({ lat: data.lat, lng: data.lng }))"
       :options="{
         strokeColor: '#87db5e',
         strokeWeight: 6,
@@ -42,3 +57,11 @@ const mapOptions = ref({
     />
   </naver-map>
 </template>
+
+<style scoped>
+.marker img {
+  width: 60px;
+  height: 70px;
+  border-radius: 50%;
+}
+</style>
