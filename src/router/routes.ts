@@ -9,10 +9,19 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'home', component: () => import('pages/HomeMainPage.vue') },
+      {
+        path: '',
+        component: () => import('pages/IndexPage.vue'),
+      },
+      {
+        path: 'home',
+        component: () => import('pages/HomeMainPage.vue'),
+      },
 
-      { path: 'feed', component: () => import('pages/Feed/FeedPage.vue') },
+      {
+        path: 'feed',
+        component: () => import('pages/Feed/FeedPage.vue'),
+      },
       {
         path: 'feed/:id',
         component: () => import('pages/Feed/FeedDetailPage.vue'),
@@ -21,8 +30,14 @@ const routes: RouteRecordRaw[] = [
         path: 'feed/modify/:id',
         component: () => import('pages/Feed/FeedModifyPage.vue'),
       },
-      { path: 'map', component: () => import('pages/MapPage.vue') },
-      { path: 'mypage', component: () => import('pages/MyPage/MyPage.vue') },
+      {
+        path: 'map',
+        component: () => import('pages/MapPage.vue'),
+      },
+      {
+        path: 'mypage',
+        component: () => import('pages/MyPage/MyPage.vue'),
+      },
       {
         path: 'write',
         component: () => import('pages/PloggingWrite/PloggingWritePage.vue'),

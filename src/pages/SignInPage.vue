@@ -1,4 +1,6 @@
 <template>
+  <LoadingPage v-if="isLoading" />
+  <!-- 로딩 컴포넌트 -->
   <LottieComponent :animationData="animationData" height="200px" />
 
   <section>
@@ -78,7 +80,8 @@
 <script setup lang="ts">
 import { useAuthStore } from 'stores/authStore';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import LoadingPage from 'pages/LoadingPage.vue';
 
 import { useProfileStore } from 'src/stores/profileStore';
 import LottieComponent from 'src/components/LottieComponent.vue';
@@ -110,6 +113,7 @@ const profileStore = useProfileStore();
 
 const email = ref('');
 const password = ref('');
+const isLoading = ref(true); // 로딩 상태 변수
 
 const login = async () => {
   //로그인 요청
@@ -124,18 +128,27 @@ const login = async () => {
     onLoginFail();
   }
 };
+
+onMounted(() => {
+  // 1초 후 로딩 종료
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 2000);
+});
 </script>
 
 <style scoped>
 section {
   padding: 48px 24px;
 }
+
 .signup-button {
   width: 100%;
   margin-top: 32px;
   border: 1px solid #e2e8f0;
   padding: 8px 24px;
 }
+
 .login-button {
   width: 100%;
   margin-top: 64px;
