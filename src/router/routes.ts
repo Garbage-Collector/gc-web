@@ -96,6 +96,10 @@ const routes: RouteRecordRaw[] = [
     path: '/signup-third', // MainLayout을 사용하지 않는 경로
     component: () => import('src/pages/SignUp/SignUpThirdPage.vue'),
   },
+  {
+    path: '/forgot-password', // 이 경로를 추가해야 함
+    component: () => import('src/pages/ForgotPasswordPage.vue'), // 실제 컴포넌트 경로
+  },
 
   {
     path: '/:catchAll(.*)*',

@@ -59,6 +59,12 @@
         </template>
       </q-input>
 
+      <div class="forgot-password-link">
+        <span @click="goToForgotPassword" class="text-blue cursor-pointer">
+          Forgot Password?
+        </span>
+      </div>
+
       <q-btn
         type="submit"
         label="Login"
@@ -129,6 +135,10 @@ const login = async () => {
   }
 };
 
+const goToForgotPassword = () => {
+  router.push('/forgot-password');
+};
+
 onMounted(() => {
   // 1초 후 로딩 종료
   setTimeout(() => {
@@ -151,7 +161,25 @@ section {
 
 .login-button {
   width: 100%;
-  margin-top: 64px;
+  margin-top: 0px;
   padding: 8px 24px;
+}
+
+.forgot-password-link {
+  margin-top: 50px;
+  margin-bottom: 10px;
+  text-align: right; /* 왼쪽 정렬 */
+}
+
+.text-blue {
+  color: #4a90e2;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: bold;
+  display: block; /* 독립적인 블록으로 만들어줌 */
+}
+
+.text-blue:hover {
+  text-decoration: underline;
 }
 </style>
