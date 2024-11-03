@@ -31,7 +31,32 @@
         </template>
       </q-input>
 
+      <!-- 로그인 방식 선택 버튼 -->
+      <div
+        class="login-options"
+        style="margin-top: 30px; margin-bottom: 15px; text-align: center"
+      >
+        <q-btn
+          label="비밀번호"
+          icon="lock"
+          color="green"
+          @click="selectPasswordLogin"
+          :outline="selectedLoginMethod !== 'password'"
+          class="custom-outline-button text-bold button-margin"
+        />
+        <q-btn
+          label="passkey"
+          icon="fingerprint"
+          color="green"
+          @click="selectPasskeyLogin"
+          :outline="selectedLoginMethod !== 'passkey'"
+          class="custom-outline-button text-bold"
+        />
+      </div>
+
+      <!-- 비밀번호 입력 필드 -->
       <q-input
+        v-if="selectedLoginMethod === 'password'"
         bottom-slots
         v-model="password"
         label="Password"
@@ -58,6 +83,39 @@
           (영문자, 소문자, 특수문자 필수)
         </template>
       </q-input>
+
+      <!-- 패스키 로그인 정보 -->
+      <div v-if="selectedLoginMethod === 'passkey'">
+        <p>패스키 로그인 준비 중입니다...</p>
+      </div>
+
+      <!--      <q-input-->
+      <!--        bottom-slots-->
+      <!--        v-model="password"-->
+      <!--        label="Password"-->
+      <!--        type="password"-->
+      <!--        counter-->
+      <!--        maxlength="20"-->
+      <!--        dense-->
+      <!--      >-->
+      <!--        <template v-slot:before>-->
+      <!--          <q-icon name="lock" />-->
+      <!--        </template>-->
+
+      <!--        <template v-slot:append>-->
+      <!--          <q-icon-->
+      <!--            v-if="password !== ''"-->
+      <!--            name="close"-->
+      <!--            @click="password = ''"-->
+      <!--            class="cursor-pointer"-->
+      <!--          />-->
+      <!--        </template>-->
+
+      <!--        <template v-slot:hint>-->
+      <!--          <p>8~20자리의 비밀번호를 입력해주세요.</p>-->
+      <!--          (영문자, 소문자, 특수문자 필수)-->
+      <!--        </template>-->
+      <!--      </q-input>-->
 
       <div class="forgot-password-link">
         <span @click="goToForgotPassword" class="text-blue cursor-pointer">
@@ -120,6 +178,7 @@ const profileStore = useProfileStore();
 const email = ref('');
 const password = ref('');
 const isLoading = ref(true); // 로딩 상태 변수
+const selectedLoginMethod = ref(null); // 로그인 방식 선택 변수
 
 const login = async () => {
   //로그인 요청
@@ -136,7 +195,19 @@ const login = async () => {
 };
 
 const goToForgotPassword = () => {
-  router.push('/forgot-password');
+  router.push('/forgot-password').catch((err) => {
+    console.error('라우터 에러:', err); // 라우터 에러 발생 시 확인
+  });
+  console.log('hi');
+};
+
+const selectPasswordLogin = () => {
+  selectedLoginMethod.value = 'password';
+};
+
+// 패스키 로그인 방식 선택 시 호출할 함수
+const selectPasskeyLogin = () => {
+  selectedLoginMethod.value = 'passkey';
 };
 
 onMounted(() => {
@@ -181,5 +252,16 @@ section {
 
 .text-blue:hover {
   text-decoration: underline;
+}
+
+.custom-outline-button {
+  border: 2px; /* 테두리를 초록색으로 설정 */
+  color: white; /* 텍스트 색상도 초록색으로 설정 */
+  font-size: 16px;
+  border-radius: 8px; /* 네모 형태 유지 */
+}
+
+.button-margin {
+  margin-right: 15px; /* 좌우에 10px 간격 추가 */
 }
 </style>

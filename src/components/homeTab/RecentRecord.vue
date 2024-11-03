@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h6><strong>최근 한 달 동안의 기록이에요</strong></h6>
+    <h6><strong>같이 나누는 플로깅 스토리</strong></h6>
 
     <div class="more">
       <span @click="router.push('/feed')">더보기</span>
@@ -59,6 +59,7 @@ header {
   align-items: center;
   height: 80px;
 }
+
 .more {
   font-size: 14px;
   color: #999;
@@ -66,17 +67,20 @@ header {
   display: flex;
   align-items: center;
 }
+
 .card-wrapper {
   display: flex;
   gap: 12px;
   overflow-x: auto;
   padding-bottom: 16px; /* 스크롤 바 아래에 패딩 추가 */
 }
+
 .alert {
   width: 120px;
   margin-bottom: 24px;
   opacity: 0.6;
 }
+
 .alert_wrapper {
   display: flex;
   justify-content: center;

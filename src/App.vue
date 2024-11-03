@@ -21,7 +21,10 @@ const layout = computed(() => {
   return route.path === '/signin' ||
     route.path === '/signup' ||
     route.path === '/signup-verify' ||
-    route.path === '/signup-third'
+    route.path === '/signup-third' ||
+    route.path === '/forgot-password' ||
+    route.path === '/forgot-verify' ||
+    route.path === '/forgot-update'
     ? 'div'
     : MainLayout;
 });

@@ -79,7 +79,6 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
   {
     path: '/signin', // MainLayout을 사용하지 않는 경로
     component: () => import('src/pages/SignInPage.vue'),
@@ -98,12 +97,19 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/forgot-password', // 이 경로를 추가해야 함
-    component: () => import('src/pages/ForgotPasswordPage.vue'), // 실제 컴포넌트 경로
+    component: () => import('src/pages/ForgotPassword/ForgotPasswordPage.vue'), // 실제 컴포넌트 경로
   },
-
+  {
+    path: '/forgot-verify', // 이 경로를 추가해야 함
+    component: () => import('src/pages/ForgotPassword/ForgotPasswordVerifyPage.vue'), // 실제 컴포넌트 경로
+  },
+  {
+    path: '/forgot-update', // 이 경로를 추가해야 함
+    component: () => import('src/pages/ForgotPassword/ForgotPasswordUpdatePage.vue'), // 실제 컴포넌트 경로
+  },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('src/pages/ErrorNotFound.vue'),
   },
 ];
 

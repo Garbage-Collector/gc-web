@@ -28,9 +28,31 @@
         </template>
       </q-input>
 
-      <!-- 비밀번호 -->
+      <div
+        class="login-options"
+        style="margin-top: 30px; margin-bottom: 15px; text-align: left"
+      >
+        <q-btn
+          label="비밀번호"
+          icon="lock"
+          :color="selectedLoginMethod === 'password' ? 'green' : 'grey'"
+          @click="selectPasswordLogin"
+          :outline="selectedLoginMethod !== 'password'"
+          class="custom-outline-button text-bold button-margin"
+        />
+        <q-btn
+          label="passkey"
+          icon="fingerprint"
+          :color="selectedLoginMethod === 'passkey' ? 'green' : 'grey'"
+          @click="selectPasskeyLogin"
+          :outline="selectedLoginMethod !== 'passkey'"
+          class="custom-outline-button text-bold"
+        />
+      </div>
 
+      <!-- 비밀번호 -->
       <q-input
+        v-if="selectedLoginMethod === 'password'"
         bottom-slots
         v-model="password"
         label="비밀번호"
@@ -56,7 +78,10 @@
         </template>
 
         <template v-slot:hint>
-          회원가입 시 사용할 비밀번호를 입력해주세요
+          <p style="margin-bottom: 0">
+            8~20자리의 사용할 비밀번호를 입력해주세요.
+          </p>
+          <p>(영문자, 소문자, 특수문자 필수)</p>
         </template>
       </q-input>
 
@@ -70,6 +95,7 @@
         dense
         class="input-spacing"
         :rules="[nicknameRule]"
+        style="margin-top: 40px"
       >
         <template v-slot:before>
           <q-icon name="badge" />
@@ -120,6 +146,8 @@ const email = ref(profileStore.profile.email);
 const password = ref('');
 const nickname = ref('');
 const isNicknameChcked = ref(false);
+const selectedLoginMethod = ref(null); // 로그인 방식 선택 변수
+
 const isNicknameValid = computed(() => {
   return nicknameRule(nickname.value) === true;
 });
@@ -196,6 +224,15 @@ const checkNickname = async () => {
     isNicknameChcked.value = false;
   }
 };
+
+const selectPasswordLogin = () => {
+  selectedLoginMethod.value = 'password';
+};
+
+// 패스키 로그인 방식 선택 시 호출할 함수
+const selectPasskeyLogin = () => {
+  selectedLoginMethod.value = 'passkey';
+};
 </script>
 
 <style scoped>
@@ -208,14 +245,27 @@ section {
   margin-top: 64px;
   padding: 8px 24px;
 }
+
 p {
   line-height: 18px;
 }
+
 .input-spacing {
   margin-bottom: 24px;
 }
+
 .check-button {
   width: 90px;
   margin-bottom: 8px;
+}
+
+.custom-outline-button {
+  border: 2px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+.button-margin {
+  margin-right: 15px;
 }
 </style>
