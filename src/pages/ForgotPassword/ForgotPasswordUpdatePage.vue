@@ -40,14 +40,20 @@ import { useQuasar } from 'quasar';
 import { api } from 'src/boot/axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useProfileStore } from 'stores/profileStore';
 
 const router = useRouter();
 const password = ref('');
 const $q = useQuasar();
+const profileStore = useProfileStore(); // 이메일 값을 가져오기 위해 추가
+
+const email = ref(profileStore.profile.email); // 스토어에서 이메일 가져오기
+
 
 const checkPassword = async () => {
   try {
     const response = await api.patch('/users/forgot-password', {
+      email: email.value,
       password: password.value,
     });
 
