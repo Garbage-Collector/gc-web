@@ -108,7 +108,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/ForgotPassword/ForgotPasswordUpdatePage.vue'), // 실제 컴포넌트 경로
   },
   {
-    path: '/:catchAll(.*)*',
+    path: '/:pathMatch(.*)*',
     component: () => import('src/pages/ErrorNotFound.vue'),
   },
 ];

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <p class="text-h6 text-weight-bold q-mt-xl"></p>
+    <p class="text-h6 text-weight-bold"></p>
 
     <q-card class="my-card">
       <q-img :src="joggingImg">
@@ -57,7 +57,7 @@ onMounted(() => {
   background-color: white;
   opacity: 0.8;
   border-radius: 10px;
-  transform: translateY(20%);
+  transform: translateY(-10%);
   display: flex;
   flex-direction: column;
   justify-content: center;

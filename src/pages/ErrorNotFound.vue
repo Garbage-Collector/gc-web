@@ -1,12 +1,12 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div class="fullscreen bg-red text-white text-center q-pa-md flex flex-center">
     <div>
-      <div style="font-size: 30vh">
-        404
+      <div style="font-size: 10vh">
+        404 Error
       </div>
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+      <div class="text-h2 text-white" style="opacity:.4">
+        Oops!! Nothing here...
       </div>
 
       <q-btn
@@ -17,6 +17,7 @@
         to="/"
         label="Go Home"
         no-caps
+        size="30px"
       />
     </div>
   </div>

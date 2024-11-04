@@ -1,31 +1,15 @@
 <template>
   <header>
     <div class="header-with-icon">
-      <q-icon name="history" class="header-icon" />
-      <h6><strong>최근 나의 플로깅 스토리</strong></h6>
+      <q-icon name="share" class="header-icon" />
+      <h6><strong>같이 나누는 플로깅 스토리</strong></h6>
     </div>
 
-    <div class="more">
-      <span @click="router.push('/feed')">더보기</span>
-      <q-icon name="arrow_forward_ios" style="margin-bottom: 1px"></q-icon>
-    </div>
+    <!--    <div class="more">-->
+    <!--      <span @click="router.push('/feed')">더보기</span>-->
+    <!--      <q-icon name="arrow_forward_ios" style="margin-bottom: 1px"></q-icon>-->
+    <!--    </div>-->
   </header>
-
-  <!-- <div v-if="ploggingStore.ploggingRecord.length !== 0">
-      <div
-        v-for="(banner, index) in ploggingStore.ploggingRecord"
-        :key="index"
-        class="banner_wrapper"
-      >
-        <BaseBanner
-          :id="banner.id"
-          :title="banner.title"
-          :start-date="banner.startDate.substring(0, 10)"
-          :imgSrc="banner.photo"
-          @click.prevent="router.push(`/feed/${banner.id}`)"
-        />
-      </div>
-    </div> -->
 
   <div v-if="ploggingStore.ploggingRecord.length !== 0">
     <div class="card-wrapper">
@@ -41,17 +25,17 @@
   <div v-else class="alert_wrapper">
     <img :src="greenAlert" alt="green_alert" class="alert" />
     <span class="text-green-4 text-bold">아직 플로깅을 시작하지 않았어요!</span>
-    <span class="text-green-4 text-bold">나의 플로깅을 등록해보세요.</span>
+    <span class="text-green-4 text-bold">나의 플로깅을 공유해보세요.</span>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 import BaseCard from '../BaseComponent/BaseCard.vue';
 import { usePloggingStore } from 'src/stores/ploggingStore';
 import greenAlert from '../../assets/green-alert-img.png';
 
-const router = useRouter();
+// const router = useRouter();
 const ploggingStore = usePloggingStore();
 </script>
 
@@ -61,6 +45,7 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 80px;
+  margin-top: 30px;
 }
 
 .more {
