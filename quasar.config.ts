@@ -34,6 +34,7 @@ export default configure((/* ctx */) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
+      publicPath:'gc',
       rollupOptions: {
         external: ['register-service-worker'],
       },
@@ -81,7 +82,8 @@ export default configure((/* ctx */) => {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      open: true, // opens browser window automatically
+      open: true, // opens browser window automatically,
+      port: 3001,
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
