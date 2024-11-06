@@ -34,7 +34,7 @@ export default configure((/* ctx */) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
-      publicPath:'gc',
+      // publicPath:'gc',
       rollupOptions: {
         external: ['register-service-worker'],
       },
@@ -138,7 +138,7 @@ export default configure((/* ctx */) => {
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
-      pwa: false,
+      pwa: true,
 
       // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
       // will mess up SSR

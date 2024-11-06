@@ -73,7 +73,7 @@ onMounted(() => {
 
 <template>
   <div v-if="isLoading" class="loading">지도를 로딩 중입니다...</div>
-  <naver-map v-else :mapOptions="mapOptions" style="width: 100%; height: 500px">
+  <naver-map v-else :mapOptions="mapOptions" style="width: 100%; height: 470px">
     <naver-marker
       v-for="data in props.datas"
       :key="data.id"

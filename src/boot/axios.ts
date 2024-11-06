@@ -3,7 +3,9 @@ import axios from 'axios';
 
 console.log('Base URL:', import.meta.env.VITE_BASE_URL);
 
-const api = axios.create({ baseURL: 'https://capstone.wisoft.io/gc/api' });
+// const api = axios.create({ baseURL: 'https://capstone.wisoft.io/gc/api' });
+const api = axios.create({ baseURL: 'http://192.168.11.76:8080/api' });
+
 
 const DEFAULTS_HEADERS = api.defaults.headers;
 DEFAULTS_HEADERS.post['Content-Type'] = 'application/json';

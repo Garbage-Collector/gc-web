@@ -381,7 +381,10 @@ function goToWritePage() {
   width: 100%; /* 전체 너비 사용 */
 }
 
-.bottom_bar,
+.bottom_bar {
+  margin-top: 0px;
+}
+
 .status-bar {
   display: flex;
   justify-content: center; /* 중앙 정렬 */
@@ -395,7 +398,6 @@ function goToWritePage() {
   width: 80px; /* 버튼 너비 */
   height: 80px; /* 버튼 높이 */
   margin: 0 15px; /* 좌우 마진 추가 */
-  font-weight: 500;
   font-weight: bold;
 }
 

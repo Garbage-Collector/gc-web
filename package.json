@@ -13,8 +13,8 @@
     "dev": "quasar dev -m pwa",
     "pwa": "quasar dev -m pwa",
     "build-pwa": "quasar build -m pwa",
-    "build:pwa": "dotenv -e .env.dev -- quasar build -m pwa",
-    "deploy": "dotenv -e .env.dev -- pnpm run build:pwa && aws s3 rm s3://gc-web-bucket --recursive && aws s3 sync dist/pwa s3://gc-web-bucket --delete && aws s3 website s3://gc-web-bucket --index-document index.html --error-document index.html"
+    "build:pwa": "dotenv -e .env -- quasar build -m pwa",
+    "deploy": "dotenv -e .env -- pnpm run build:pwa && aws s3 rm s3://gc-web-bucket --recursive && aws s3 sync dist/pwa s3://gc-web-bucket --delete && aws s3 website s3://gc-web-bucket --index-document index.html --error-document index.html"
   },
   "dependencies": {
     "@quasar/cli": "^2.4.1",

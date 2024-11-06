@@ -169,6 +169,7 @@ const onLoginSuccess = (nickname: string) => {
     message: `${nickname}님, 플로깅 하세요!`,
     type: 'positive',
     position: 'bottom',
+    timeout: 1000,
   });
 };
 
