@@ -101,7 +101,7 @@ const uploadProfileImage = async () => {
 
     if (response.status === 200) {
       profileStore.profile.profileImage =
-        import.meta.env.VITE_BASE_URL + response.data['profile-image'];
+        import.meta.env.VITE_BASE_URL_IMAGE + response.data['profile-image'];
 
       alert('프로필 이미지 변경 성공');
     }

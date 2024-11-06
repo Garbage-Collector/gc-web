@@ -1,5 +1,5 @@
 export const formatResponseData = (responseData) => {
-  const baseUrl = import.meta.env.VITE_BASE_URL.slice(0, -4);
+  const baseUrl = import.meta.env.VITE_BASE_URL_IMAGE;
   console.log(`responseData === [${JSON.stringify(responseData)}]`);
 
   return responseData.map((record) => ({

@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', {
         profileStore.profile.password = res.data.password;
         profileStore.profile.nickname = res.data.nickname;
         profileStore.profile.profileImage =
-          import.meta.env.VITE_BASE_URL.slice(0, -4) +
+          import.meta.env.VITE_BASE_URL_IMAGE +
           res.data['profile-image'];
 
         this.setToken(res.data.accessToken, res.data.refreshToken);

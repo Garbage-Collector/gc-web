@@ -62,7 +62,7 @@ import profilePicture from '../../assets/logo.png';
 const profileStore = useProfileStore();
 const router = useRouter();
 const route = useRoute();
-const baseUrl = import.meta.env.VITE_BASE_URL.slice(0, -4);
+const baseUrl = import.meta.env.VITE_BASE_URL_IMAGE;
 
 const userId = profileStore.profile.id;
 const recordId = route.params.id;
