@@ -12,10 +12,8 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m pwa",
     "pwa": "quasar dev -m pwa",
-    "build-spa":"dotenv -e .env.dev -- quasar build -m spa",
-    "build-pwa": "quasar build -m pwa",
-    "build:pwa": "dotenv -e .env.dev -- quasar build -m pwa",
-    "deploy": "dotenv -e .env.dev -- pnpm run build:pwa && aws s3 rm s3://gc-web-bucket --recursive && aws s3 sync dist/pwa s3://gc-web-bucket --delete && aws s3 website s3://gc-web-bucket --index-document index.html --error-document index.html"
+    "build-spa":"dotenv -e .env -- quasar build -m spa",
+    "build:pwa": "dotenv -e .env -- quasar build -m pwa"
   },
   "dependencies": {
     "@quasar/cli": "^2.4.1",
