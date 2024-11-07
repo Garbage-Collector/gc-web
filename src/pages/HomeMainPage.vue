@@ -3,6 +3,7 @@
     <HeaderComponent />
     <PloggingRecord />
     <RecentRecord />
+    <ShareRecord/>
   </section>
 </template>
 
@@ -10,6 +11,7 @@
 import HeaderComponent from 'components/homeTab/HeaderComponent.vue';
 import PloggingRecord from 'components/homeTab/MyPloggingRecord.vue';
 import RecentRecord from 'components/homeTab/RecentRecord.vue';
+import ShareRecord     from 'components/homeTab/ShareRecord.vue';
 </script>
 
 <style scoped lang="scss">

@@ -1,4 +1,6 @@
 <template>
+  <LoadingPage v-if="isLoading" />
+  <!-- 로딩 컴포넌트 -->
   <LottieComponent :animationData="animationData" height="200px" />
 
   <section>
@@ -29,7 +31,32 @@
         </template>
       </q-input>
 
+      <!-- 로그인 방식 선택 버튼 -->
+      <div
+        class="login-options"
+        style="margin-top: 30px; margin-bottom: 15px; text-align: center"
+      >
+        <q-btn
+          label="비밀번호"
+          icon="lock"
+          color="green"
+          @click="selectPasswordLogin"
+          :outline="selectedLoginMethod !== 'password'"
+          class="custom-outline-button text-bold button-margin"
+        />
+        <q-btn
+          label="passkey"
+          icon="fingerprint"
+          color="green"
+          @click="selectPasskeyLogin"
+          :outline="selectedLoginMethod !== 'passkey'"
+          class="custom-outline-button text-bold"
+        />
+      </div>
+
+      <!-- 비밀번호 입력 필드 -->
       <q-input
+        v-if="selectedLoginMethod === 'password'"
         bottom-slots
         v-model="password"
         label="Password"
@@ -57,6 +84,18 @@
         </template>
       </q-input>
 
+      <!-- 패스키 로그인 정보 -->
+      <div
+        v-if="selectedLoginMethod === 'passkey'"
+        style="margin-top: 40px; text-align: center"
+      ></div>
+
+      <div class="forgot-password-link">
+        <span @click="goToForgotPassword" class="text-blue cursor-pointer">
+          Forgot Password?
+        </span>
+      </div>
+
       <q-btn
         type="submit"
         label="Login"
@@ -78,7 +117,8 @@
 <script setup lang="ts">
 import { useAuthStore } from 'stores/authStore';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import LoadingPage from 'pages/LoadingPage.vue';
 
 import { useProfileStore } from 'src/stores/profileStore';
 import LottieComponent from 'src/components/LottieComponent.vue';
@@ -102,6 +142,7 @@ const onLoginSuccess = (nickname: string) => {
     message: `${nickname}님, 플로깅 하세요!`,
     type: 'positive',
     position: 'bottom',
+    timeout: 1000,
   });
 };
 
@@ -110,6 +151,8 @@ const profileStore = useProfileStore();
 
 const email = ref('');
 const password = ref('');
+const isLoading = ref(true); // 로딩 상태 변수
+const selectedLoginMethod = ref(null); // 로그인 방식 선택 변수
 
 const login = async () => {
   //로그인 요청
@@ -124,21 +167,75 @@ const login = async () => {
     onLoginFail();
   }
 };
+
+const goToForgotPassword = () => {
+  router.push('/forgot-password').catch((err) => {
+    console.error('라우터 에러:', err); // 라우터 에러 발생 시 확인
+  });
+};
+
+const selectPasswordLogin = () => {
+  selectedLoginMethod.value = 'password';
+};
+
+// 패스키 로그인 방식 선택 시 호출할 함수
+const selectPasskeyLogin = () => {
+  selectedLoginMethod.value = 'passkey';
+  alert('등록');
+};
+
+onMounted(() => {
+  // 1초 후 로딩 종료
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 2000);
+});
 </script>
 
 <style scoped>
 section {
   padding: 48px 24px;
 }
+
 .signup-button {
   width: 100%;
   margin-top: 32px;
   border: 1px solid #e2e8f0;
   padding: 8px 24px;
 }
+
 .login-button {
   width: 100%;
-  margin-top: 64px;
+  margin-top: 0px;
   padding: 8px 24px;
+}
+
+.forgot-password-link {
+  margin-top: 50px;
+  margin-bottom: 10px;
+  text-align: right; /* 왼쪽 정렬 */
+}
+
+.text-blue {
+  color: #4a90e2;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: bold;
+  display: block; /* 독립적인 블록으로 만들어줌 */
+}
+
+.text-blue:hover {
+  text-decoration: underline;
+}
+
+.custom-outline-button {
+  border: 2px; /* 테두리를 초록색으로 설정 */
+  color: white; /* 텍스트 색상도 초록색으로 설정 */
+  font-size: 16px;
+  border-radius: 8px; /* 네모 형태 유지 */
+}
+
+.button-margin {
+  margin-right: 15px; /* 좌우에 10px 간격 추가 */
 }
 </style>

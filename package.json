@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "dotenv -e .env.dev quasar dev",
+    "dev": "quasar dev -m pwa",
     "pwa": "quasar dev -m pwa",
     "build-spa":"dotenv -e .env.dev -- quasar build -m spa",
     "build-pwa": "quasar build -m pwa",
@@ -20,6 +20,7 @@
   "dependencies": {
     "@quasar/cli": "^2.4.1",
     "@quasar/extras": "^1.16.4",
+    "@simplewebauthn/browser": "^11.0.0",
     "axios": "^1.2.1",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",

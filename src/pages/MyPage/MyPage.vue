@@ -35,6 +35,14 @@
         <div class="value">{{ profileStore.profile.email }}</div>
       </div>
       <div class="info-group">
+        <div class="label">PASSKEY 등록</div>
+        <q-btn
+          class="edit-button"
+          label="REGISTER"
+          @click="passkeyRegister"
+        ></q-btn>
+      </div>
+      <div class="info-group">
         <div class="label">비밀번호 변경</div>
         <q-btn class="edit-button" label="Edit" to="/checkPassword"></q-btn>
       </div>
@@ -53,8 +61,10 @@ import { useProfileStore } from 'src/stores/profileStore';
 import { api } from 'src/boot/axios';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { startRegistration } from '@simplewebauthn/browser';
 
 const profileStore = useProfileStore();
+
 const router = useRouter();
 const $q = useQuasar();
 
@@ -121,6 +131,62 @@ const logout = async () => {
     router.push('/'); // 홈 화면으로 리디렉션
   } catch (error) {
     console.error('Error during logout:', error);
+  }
+};
+
+const passkeyRegister = async () => {
+  try {
+    const email = profileStore.profile.email;
+
+    const resp = await fetch(
+      `http://localhost:8080/api/passkey/register?email=${encodeURIComponent(email)}`,
+    );
+    const optionsJSON = await resp.json();
+
+    let attResp;
+    try {
+      // Pass the options to the authenticator and wait for a response
+      attResp = await startRegistration({ optionsJSON }); // Correct passing of options
+    } catch (error) {
+      // Some basic error handling
+      if (error.name === 'InvalidStateError') {
+        $q.notify({
+          message: '이미 등록된 사용자 입니다.',
+          type: 'negative',
+          position: 'top',
+          timeout: 500, // 1초 후 자동으로 닫힘
+        });
+      }
+      throw error;
+    }
+
+    // POST the response to the endpoint that calls
+    // @simplewebauthn/server -> verifyRegistrationResponse()
+    const verificationResp = await fetch(
+      'http://localhost:8080/api/passkey/register',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(attResp),
+      },
+    );
+
+    // Wait for the results of verification
+    const verificationJSON = await verificationResp.json();
+
+    // Show UI appropriate for the `verified` status
+    if (verificationJSON && verificationJSON.verified) {
+      $q.notify({
+        message: 'PASSKEY 등록 완료',
+        type: 'positive',
+        position: 'top',
+        timeout: 500, // 1초 후 자동으로 닫힘
+      });
+    }
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -197,7 +263,7 @@ onMounted(() => {
   background: #f0effa;
   border-radius: 72.66px;
   padding: 3px 11px;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: bold;
 }
 

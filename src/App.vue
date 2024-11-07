@@ -18,10 +18,17 @@ defineOptions({
 const route = useRoute();
 
 const layout = computed(() => {
+  if (route.matched.some(record => record.path === '/:pathMatch(.*)*')) {
+    return 'div';
+  }
+
   return route.path === '/signin' ||
     route.path === '/signup' ||
     route.path === '/signup-verify' ||
-    route.path === '/signup-third'
+    route.path === '/signup-third' ||
+    route.path === '/forgot-password' ||
+    route.path === '/forgot-verify' ||
+    route.path === '/forgot-update'
     ? 'div'
     : MainLayout;
 });

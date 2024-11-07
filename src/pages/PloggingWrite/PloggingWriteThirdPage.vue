@@ -7,7 +7,7 @@
       icon="chevron_left"
       @click="router.back()"
     />
-    <p class="text-bold text-h5 q-mt-xl">플로깅 기록 작성</p>
+    <p class="text-bold text-h5 q-mt-xl" style="margin-top: 20px">플로깅 기록 작성</p>
     <div class="flex column q-mb-lg">
       <span class="text-grey-6">내가 한 플로깅을 기록으로 남겨보세요!</span>
     </div>
@@ -117,9 +117,9 @@ const submitImages = async () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 347px;
-  margin-top: 24px;
+  width: 95%;
+  height: 310px;
+  margin: 0 auto;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 24px;
   position: relative;

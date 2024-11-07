@@ -6,6 +6,7 @@ import { createNaverMap } from 'vue3-naver-maps';
 export default boot(async ({ app }) => {
 
   app.use(createNaverMap, {
-    clientId: 'aopxhxa5qu'
+    clientId: 'jw4r0ruqc7',
   });
 });
+

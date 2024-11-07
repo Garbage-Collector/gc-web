@@ -64,6 +64,13 @@ watch(
 </script>
 
 <style scoped>
+
+.label-span {
+  background-color: white; /* 배경색 흰색 */
+  padding: 2px 4px; /* 여백 추가 */
+  border-radius: 4px; /* 모서리 둥글게 */
+}
+
 .calendar {
   display: flex;
 }

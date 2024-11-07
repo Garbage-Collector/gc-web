@@ -57,6 +57,22 @@ export default configure((/* ctx */) => {
       middlewares: [
         'render', // keep this as last one
       ],
+
+      // extendPackageJson (json) {},
+      // extendSSRWebserverConf (esbuildConf) {},
+
+      // manualStoreSerialization: true,
+      // manualStoreSsrContextInjection: true,
+      // manualStoreHydration: true,
+      // manualPostHydrationTrigger: true,
+
+      pwa: true,
+
+      // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
+      // will mess up SSR
+
+      // pwaExtendGenerateSWOptions (cfg) {},
+      // pwaExtendInjectManifestOptions (cfg) {}
     },
 
     pwa: {

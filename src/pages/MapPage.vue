@@ -1,13 +1,15 @@
 <template>
   <section class="main-wrapper" ref="captureArea">
-    <header class="text-bold text-h5">
+    <header class="text-bold text-h5" :style="{ marginBottom: '0.5rem' }">
       {{ currentDate }}
     </header>
     <NaverMapComponent :datas="markerData" />
 
     <section class="status-bar">
       <div class="status-time">
-        <p v-if="countdown > 0" key="countdown">{{ countdown }}</p>
+        <p v-if="countdown > 0" key="countdown">
+          {{ countdown }}
+        </p>
         <p v-else key="time">{{ elapsedTime }}</p>
       </div>
     </section>
@@ -19,6 +21,7 @@
         icon="add_a_photo"
         @click="triggerCamera"
         class="camera_button"
+        size="20px"
       >
         <input
           type="file"
@@ -35,6 +38,7 @@
         round
         color="green"
         :label="isPlogging ? '일시중지' : '시작'"
+        size="20px"
         @click="handleStartButton"
       />
       <q-btn
@@ -42,6 +46,7 @@
         round
         color="green"
         label="종료"
+        size="20px"
         @click="showConfirmDialog"
       />
     </section>
@@ -61,7 +66,7 @@
               종료 후에는 현재 이미지가 캡쳐돼요!
             </p>
             <p class="dialog-description">
-              지도의 마커가 잘 보이도록 지도를 조정하고 종료해주세요.
+              마커가 잘 보이도록 지도를 조정하고 종료해주세요.
             </p>
           </div>
         </q-card-section>
@@ -139,7 +144,7 @@ function getCurrentDate(): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return `${year}년 ${month}월 ${day}일`;
 }
 
 function triggerCamera() {
@@ -170,6 +175,26 @@ function handleFileChange(event: Event) {
   }
 }
 
+// function getCurrentLocation(callback: (lat: number, lng: number) => void) {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//       (position) => {
+//         const lat = position.coords.latitude;
+//         const lng = position.coords.longitude;
+//         console.log(`lat === [${lat}], lng === [${lng}]`);
+//         callback(lat, lng);
+//       },
+//       (error) => {
+//         console.error('Error getting location: ', error);
+//         callback(37.507342, 127.052023); // 기본 위치로 설정
+//       },
+//     );
+//   } else {
+//     console.error('Geolocation is not supported by this browser.');
+//     callback(37.507342, 127.052023); // 기본 위치로 설정
+//   }
+// }
+
 function getCurrentLocation(callback: (lat: number, lng: number) => void) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -180,13 +205,30 @@ function getCurrentLocation(callback: (lat: number, lng: number) => void) {
         callback(lat, lng);
       },
       (error) => {
-        console.error('Error getting location: ', error);
-        callback(37.507342, 127.052023); // 기본 위치로 설정
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert('위치 권한이 거부되었습니다. 위치 권한을 활성화해주세요.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert('위치 정보를 사용할 수 없습니다. 다시 시도해주세요.');
+            break;
+          case error.TIMEOUT:
+            alert(
+              '위치 정보를 가져오는 데 시간이 초과되었습니다. 다시 시도해주세요.',
+            );
+            break;
+          default:
+            alert('위치 정보를 가져오는 중 알 수 없는 오류가 발생했습니다.');
+        }
+      },
+      {
+        timeout: 10000,
+        maximumAge: 0,
+        enableHighAccuracy: true,
       },
     );
   } else {
     console.error('Geolocation is not supported by this browser.');
-    callback(37.507342, 127.052023); // 기본 위치로 설정
   }
 }
 
@@ -339,7 +381,10 @@ function goToWritePage() {
   width: 100%; /* 전체 너비 사용 */
 }
 
-.bottom_bar,
+.bottom_bar {
+  margin-top: 0px;
+}
+
 .status-bar {
   display: flex;
   justify-content: center; /* 중앙 정렬 */
@@ -353,7 +398,6 @@ function goToWritePage() {
   width: 80px; /* 버튼 너비 */
   height: 80px; /* 버튼 높이 */
   margin: 0 15px; /* 좌우 마진 추가 */
-  font-weight: 500;
   font-weight: bold;
 }
 
