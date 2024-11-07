@@ -85,37 +85,10 @@
       </q-input>
 
       <!-- 패스키 로그인 정보 -->
-      <div v-if="selectedLoginMethod === 'passkey'">
-        <p>패스키 로그인 준비 중입니다...</p>
-      </div>
-
-      <!--      <q-input-->
-      <!--        bottom-slots-->
-      <!--        v-model="password"-->
-      <!--        label="Password"-->
-      <!--        type="password"-->
-      <!--        counter-->
-      <!--        maxlength="20"-->
-      <!--        dense-->
-      <!--      >-->
-      <!--        <template v-slot:before>-->
-      <!--          <q-icon name="lock" />-->
-      <!--        </template>-->
-
-      <!--        <template v-slot:append>-->
-      <!--          <q-icon-->
-      <!--            v-if="password !== ''"-->
-      <!--            name="close"-->
-      <!--            @click="password = ''"-->
-      <!--            class="cursor-pointer"-->
-      <!--          />-->
-      <!--        </template>-->
-
-      <!--        <template v-slot:hint>-->
-      <!--          <p>8~20자리의 비밀번호를 입력해주세요.</p>-->
-      <!--          (영문자, 소문자, 특수문자 필수)-->
-      <!--        </template>-->
-      <!--      </q-input>-->
+      <div
+        v-if="selectedLoginMethod === 'passkey'"
+        style="margin-top: 40px; text-align: center"
+      ></div>
 
       <div class="forgot-password-link">
         <span @click="goToForgotPassword" class="text-blue cursor-pointer">
@@ -199,7 +172,6 @@ const goToForgotPassword = () => {
   router.push('/forgot-password').catch((err) => {
     console.error('라우터 에러:', err); // 라우터 에러 발생 시 확인
   });
-  console.log('hi');
 };
 
 const selectPasswordLogin = () => {
@@ -209,6 +181,7 @@ const selectPasswordLogin = () => {
 // 패스키 로그인 방식 선택 시 호출할 함수
 const selectPasskeyLogin = () => {
   selectedLoginMethod.value = 'passkey';
+  alert('등록');
 };
 
 onMounted(() => {

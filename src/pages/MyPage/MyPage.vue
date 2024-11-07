@@ -35,6 +35,14 @@
         <div class="value">{{ profileStore.profile.email }}</div>
       </div>
       <div class="info-group">
+        <div class="label">PASSKEY 등록</div>
+        <q-btn
+          class="edit-button"
+          label="등록"
+          @click="passkeyRegister"
+        ></q-btn>
+      </div>
+      <div class="info-group">
         <div class="label">비밀번호 변경</div>
         <q-btn class="edit-button" label="Edit" to="/checkPassword"></q-btn>
       </div>
@@ -119,6 +127,14 @@ const logout = async () => {
       position: 'bottom',
     });
     router.push('/'); // 홈 화면으로 리디렉션
+  } catch (error) {
+    console.error('Error during logout:', error);
+  }
+};
+
+const passkeyRegister = async () => {
+  try {
+    alert('등록구현중');
   } catch (error) {
     console.error('Error during logout:', error);
   }
