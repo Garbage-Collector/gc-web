@@ -1,5 +1,4 @@
 <template>
-  <LoadingPage v-if="isLoading" />
   <!-- 로딩 컴포넌트 -->
   <LottieComponent :animationData="animationData" height="200px" />
 
@@ -118,7 +117,6 @@
 import { useAuthStore } from 'stores/authStore';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
-import LoadingPage from 'pages/LoadingPage.vue';
 
 import { useProfileStore } from 'src/stores/profileStore';
 import LottieComponent from 'src/components/LottieComponent.vue';
@@ -184,12 +182,6 @@ const selectPasskeyLogin = () => {
   alert('등록');
 };
 
-onMounted(() => {
-  // 1초 후 로딩 종료
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 2000);
-});
 </script>
 
 <style scoped>

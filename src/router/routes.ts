@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/signin',
+    redirect: '/loading',
   },
   {
     path: '/',
@@ -101,11 +101,17 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/forgot-verify', // 이 경로를 추가해야 함
-    component: () => import('src/pages/ForgotPassword/ForgotPasswordVerifyPage.vue'), // 실제 컴포넌트 경로
+    component: () =>
+      import('src/pages/ForgotPassword/ForgotPasswordVerifyPage.vue'), // 실제 컴포넌트 경로
   },
   {
     path: '/forgot-update', // 이 경로를 추가해야 함
-    component: () => import('src/pages/ForgotPassword/ForgotPasswordUpdatePage.vue'), // 실제 컴포넌트 경로
+    component: () =>
+      import('src/pages/ForgotPassword/ForgotPasswordUpdatePage.vue'), // 실제 컴포넌트 경로
+  },
+  {
+    path: '/loading',
+    component: () => import('src/pages/LoadingPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

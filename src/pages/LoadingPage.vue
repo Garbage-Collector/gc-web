@@ -7,15 +7,19 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'LoadingPage',
-  mounted() {
-    // 로딩 페이지가 마운트될 때 배경색 변경
-    document.body.style.backgroundColor = '#489743';
-  },
-  beforeUnmount() {
-    // 로딩 페이지가 해제될 때 배경색을 흰색으로 변경
-    document.body.style.backgroundColor = '#ffffff';
+  setup() {
+    const router = useRouter();
+
+    // onMounted 훅에서 2초 후 SigninPage로 이동
+    setTimeout(() => {
+      router.push('/signin'); // 또는 원하는 경로로 수정
+    }, 2000); // 2초 후
+
+    return {};
   },
 };
 </script>
@@ -26,7 +30,7 @@ export default {
   flex-direction: column; /* 이미지와 텍스트 세로로 정렬 */
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100dvh; /* 동적 뷰포트 높이로 설정 */
   background-color: #489743; /* 원하는 배경색으로 변경 */
 }
 
