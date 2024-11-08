@@ -9,6 +9,14 @@
 <script>
 export default {
   name: 'LoadingPage',
+  mounted() {
+    // 로딩 페이지가 마운트될 때 배경색 변경
+    document.body.style.backgroundColor = '#489743';
+  },
+  beforeUnmount() {
+    // 로딩 페이지가 해제될 때 배경색을 흰색으로 변경
+    document.body.style.backgroundColor = '#ffffff';
+  },
 };
 </script>
 
