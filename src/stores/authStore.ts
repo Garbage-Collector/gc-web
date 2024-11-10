@@ -70,7 +70,7 @@ export const useAuthStore = defineStore('auth', {
         // console.log(email);
 
         const resp = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/passkey/authentication?email=${encodeURIComponent(email)}`,
+          `${import.meta.env.VITE_BASE_URL2}/passkey/authentication?email=${encodeURIComponent(email)}`,
         );
         const optionsJSON = await resp.json();
 
@@ -87,7 +87,7 @@ export const useAuthStore = defineStore('auth', {
         // POST the response to the endpoint that calls
         // @simplewebauthn/server -> verifyRegistrationResponse()
         const verificationResp = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/passkey/authentication`,
+          `${import.meta.env.VITE_BASE_URL2}/passkey/authentication`,
           {
             method: 'POST',
             headers: {

@@ -26,7 +26,7 @@ export default configure((/* ctx */) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
-      // publicPath: 'gc',
+      publicPath: 'gc',
       rollupOptions: {
         external: ['register-service-worker'],
       },

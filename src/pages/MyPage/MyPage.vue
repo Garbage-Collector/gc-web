@@ -153,7 +153,7 @@ const passkeyRegister = async () => {
     const email = profileStore.profile.email;
 
     const resp = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/passkey/register?email=${encodeURIComponent(email)}`,
+      `${import.meta.env.VITE_BASE_URL2}/passkey/register?email=${encodeURIComponent(email)}`,
     );
     const optionsJSON = await resp.json();
 
@@ -177,7 +177,7 @@ const passkeyRegister = async () => {
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyRegistrationResponse()
     const verificationResp = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/passkey/register`,
+      `${import.meta.env.VITE_BASE_URL2}/passkey/register`,
       {
         method: 'POST',
         headers: {

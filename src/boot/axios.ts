@@ -3,7 +3,7 @@ import axios from 'axios';
 
 console.log('Base URL:', import.meta.env.VITE_BASE_URL);
 
-const api = axios.create({ baseURL: import.meta.env.VITE_BASE_URL });
+const api = axios.create({ baseURL: import.meta.env.VITE_BASE_URL2 });
 
 const DEFAULTS_HEADERS = api.defaults.headers;
 DEFAULTS_HEADERS.post['Content-Type'] = 'application/json';
