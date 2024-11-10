@@ -25,7 +25,7 @@ defineProps<Props>();
 .base-card {
   border: 1px solid #ccc;
   border-radius: 16px;
-  width: 193px;
+  width: 180px;
   height: 203px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
   border: none;

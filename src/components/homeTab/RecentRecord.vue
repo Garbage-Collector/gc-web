@@ -10,23 +10,6 @@
       <q-icon name="arrow_forward_ios" style="margin-bottom: 1px"></q-icon>
     </div>
   </header>
-
-  <!-- <div v-if="ploggingStore.ploggingRecord.length !== 0">
-      <div
-        v-for="(banner, index) in ploggingStore.ploggingRecord"
-        :key="index"
-        class="banner_wrapper"
-      >
-        <BaseBanner
-          :id="banner.id"
-          :title="banner.title"
-          :start-date="banner.startDate.substring(0, 10)"
-          :imgSrc="banner.photo"
-          @click.prevent="router.push(`/feed/${banner.id}`)"
-        />
-      </div>
-    </div> -->
-
   <div v-if="ploggingStore.ploggingRecord.length !== 0">
     <div class="card-wrapper">
       <div v-for="(item, index) in ploggingStore.ploggingRecord" :key="index">

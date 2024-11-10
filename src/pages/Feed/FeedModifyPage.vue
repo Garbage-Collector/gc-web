@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <h3>피드 수정 페이지</h3>
-    <p>게시글 아이디 === {{ route.params.id }}</p>
-
+    <h3 class="text-bold text-h5 q-mt-xl">플로깅 기록 수정</h3>
     <q-form @submit.prevent="updateRecord" class="form-container">
       <q-input v-model="title" label="Title" outlined />
       <q-input v-model="location" label="Location" outlined />
@@ -19,44 +17,58 @@
         outlined
       />
       <q-input v-model="content" label="Content" type="textarea" outlined />
-      <div v-for="(image, index) in images" :key="index" class="image-preview">
-        <q-img :src="image.imageUrl" :alt="'image-' + index" />
+
+      <!-- 새로 업로드한 이미지 미리보기 -->
+      <div class="image-container">
+        <div
+          v-for="(image, index) in newImagesPreview"
+          :key="'new-' + index"
+          class="image-preview"
+        >
+          <q-img :src="image" :alt="'new-image-' + index" />
+        </div>
       </div>
+
       <div class="upload-section">
         <q-btn
           @click="triggerFileInput"
           label="Upload New Image"
-          color="secondary"
+          color="primary"
         />
         <input
           type="file"
           ref="fileInput"
           accept="image/*"
           @change="handleFileChange"
+          multiple
           style="display: none"
         />
       </div>
-      <q-btn type="submit" label="Update Record" color="primary" />
+      <q-btn type="submit" label="수정하기" color="primary" />
     </q-form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { api } from 'src/boot/axios';
 import { useProfileStore } from 'src/stores/profileStore';
+import { useQuasar } from 'quasar';
 
 const route = useRoute();
 const profileStore = useProfileStore();
+const $q = useQuasar();
+const router = useRouter();
 
 const title = ref('');
 const location = ref('');
 const startTime = ref('');
 const endTime = ref('');
 const content = ref('');
-const images = ref([]);
-const newImages = ref([]);
+const images = ref([]); // 기존 이미지
+const newImages = ref([]); // 새로 업로드된 이미지 파일
+const newImagesPreview = ref([]); // 새로 업로드된 이미지의 미리보기 URL
 
 const fileInput = ref(null);
 
@@ -85,7 +97,15 @@ const handleFileChange = (event) => {
   const files = event.target.files;
   if (files.length > 0) {
     for (let i = 0; i < files.length; i++) {
-      newImages.value.push(files[i]);
+      const file = files[i];
+      newImages.value.push(file);
+
+      // 이미지 미리보기 생성
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        newImagesPreview.value.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
     }
   }
 };
@@ -110,7 +130,13 @@ const updateRecord = async () => {
       },
     });
     if (response.status === 200) {
-      alert('Record updated successfully');
+      $q.notify({
+        message: '수정 되었습니다.',
+        type: 'positive',
+        position: 'center',
+        timeout: 500,
+      });
+      router.push('/feed');
     }
   } catch (error) {
     console.error('Error updating record:', error);
@@ -129,8 +155,26 @@ const updateRecord = async () => {
   gap: 16px;
 }
 
+/* Container to arrange images in a row with some gap */
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0px;
+}
+
 .image-preview {
-  margin-bottom: 10px;
+  width: 80px; /* Set to desired thumbnail width */
+  height: 80px; /* Set to desired thumbnail height */
+  border-radius: 4px;
+  overflow: hidden;
+
+  /* Styling for individual image elements */
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures images maintain aspect ratio within the set dimensions */
+  }
 }
 
 .upload-section {

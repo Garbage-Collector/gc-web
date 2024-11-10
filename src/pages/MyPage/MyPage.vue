@@ -48,7 +48,6 @@
       </div>
       <div class="info-group">
         <div class="label">로그아웃</div>
-        <!-- <div class="value">대전시 덕명동</div> -->
         <q-btn class="edit-button" label="Logout" @click="logout"></q-btn>
       </div>
     </div>
@@ -62,6 +61,7 @@ import { api } from 'src/boot/axios';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { startRegistration } from '@simplewebauthn/browser';
+import { useAuthStore } from 'stores/authStore';
 
 const profileStore = useProfileStore();
 
@@ -122,13 +122,27 @@ const uploadProfileImage = async () => {
 
 const logout = async () => {
   try {
-    localStorage.removeItem('accessToken'); // 토큰 제거
+    // 스토어 가져오기
+    const authStore = useAuthStore();
+    const profileStore = useProfileStore();
+
+    // LocalStorage에서 모든 정보 제거
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+
+    // 스토어 초기화
+    authStore.$reset();
+    profileStore.$reset();
+
+    // 로그아웃 알림
     $q.notify({
       message: '로그아웃 되었습니다.',
       type: 'positive',
       position: 'bottom',
     });
-    router.push('/'); // 홈 화면으로 리디렉션
+
+    // 홈 화면으로 리디렉션
+    router.push('/');
   } catch (error) {
     console.error('Error during logout:', error);
   }

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { api, deleteHeaderToken, setHeaderToken } from 'src/boot/axios';
 import { useProfileStore } from './profileStore';
 import { jwtDecode } from 'jwt-decode';
+import { startAuthentication } from '@simplewebauthn/browser';
 
 interface DecodedToken {
   exp: number;
@@ -49,14 +50,74 @@ export const useAuthStore = defineStore('auth', {
         profileStore.profile.password = res.data.password;
         profileStore.profile.nickname = res.data.nickname;
         profileStore.profile.profileImage =
-          import.meta.env.VITE_BASE_URL_IMAGE +
-          res.data['profile-image'];
+          import.meta.env.VITE_BASE_URL_IMAGE + res.data['profile-image'];
 
         this.setToken(res.data.accessToken, res.data.refreshToken);
         console.log(res.data);
         console.log(`액세스 토큰 값 === [${this.token}]`);
         console.log(`프로필 이미지 === [${profileStore.profile.profileImage}]`);
         console.log(`로그인 요청 응답 === [ ${JSON.stringify(res.data)}]`);
+      } catch (error) {
+        console.error('로그인 에러 => ', error);
+      }
+    },
+    async passkeyLogin() {
+      try {
+        // GET registration options from the endpoint that calls
+        // @simplewebauthn/server -> generateRegistrationOptions()
+        const profileStore = useProfileStore();
+        const email = profileStore.profile.email;
+        // console.log(email);
+
+        const resp = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/passkey/authentication?email=${encodeURIComponent(email)}`,
+        );
+        const optionsJSON = await resp.json();
+
+        let asseResp;
+        try {
+          // Pass the options to the authenticator and wait for a response
+          asseResp = await startAuthentication({ optionsJSON });
+        } catch (error) {
+          console.error('로그인 에러 => ', error);
+          // Some basic error handling
+          throw error;
+        }
+
+        // POST the response to the endpoint that calls
+        // @simplewebauthn/server -> verifyRegistrationResponse()
+        const verificationResp = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/passkey/authentication`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(asseResp),
+          },
+        );
+
+        // Wait for the results of verification
+        const verificationJSON = await verificationResp.json();
+
+        // Show UI appropriate for the `verified` status
+        if (verificationJSON && verificationJSON.verified) {
+          const res = await api.get('/passkey/signin', {
+            params: {
+              email: email, // 여기서 emailValue는 이메일 값
+            },
+          });
+
+          this.isLoggedIn = true;
+          profileStore.profile.id = res.data.id;
+          profileStore.profile.password = res.data.password;
+          profileStore.profile.nickname = res.data.nickname;
+          profileStore.profile.profileImage =
+            import.meta.env.VITE_BASE_URL_IMAGE + res.data['profile-image'];
+
+          this.setToken(res.data.accessToken, res.data.refreshToken);
+
+        }
       } catch (error) {
         console.error('로그인 에러 => ', error);
       }

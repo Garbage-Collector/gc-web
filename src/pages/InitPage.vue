@@ -2,9 +2,12 @@
   <q-page>
     <q-dialog v-model="loading">
       <q-card>
-        <q-card-section class="row items-center">
+        <q-card-section class="column items-center">
           <q-spinner size="50px" color="primary" />
-          <span class="q-ml-sm">사용자 데이터 로딩 중...</span>
+          <span class="q-ml-sm" style="display: block">로그인 성공</span>
+          <span class="q-ml-sm" style="display: block"
+            >사용자 데이터 로딩 중...</span
+          >
         </q-card-section>
       </q-card>
     </q-dialog>

@@ -116,7 +116,7 @@
 <script setup lang="ts">
 import { useAuthStore } from 'stores/authStore';
 import { useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 import { useProfileStore } from 'src/stores/profileStore';
 import LottieComponent from 'src/components/LottieComponent.vue';
@@ -149,7 +149,6 @@ const profileStore = useProfileStore();
 
 const email = ref('');
 const password = ref('');
-const isLoading = ref(true); // 로딩 상태 변수
 const selectedLoginMethod = ref(null); // 로그인 방식 선택 변수
 
 const login = async () => {
@@ -177,11 +176,18 @@ const selectPasswordLogin = () => {
 };
 
 // 패스키 로그인 방식 선택 시 호출할 함수
-const selectPasskeyLogin = () => {
+const selectPasskeyLogin = async () => {
   selectedLoginMethod.value = 'passkey';
-  alert('등록');
-};
+  profileStore.profile.email = email.value;
+  await authStore.passkeyLogin();
 
+  if (authStore.isLoggedIn) {
+    onLoginSuccess(`${profileStore.profile.nickname}`);
+    router.push('/init');
+  } else {
+    onLoginFail();
+  }
+};
 </script>
 
 <style scoped>
