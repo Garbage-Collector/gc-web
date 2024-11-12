@@ -78,7 +78,7 @@ export const usePloggingStore = defineStore('plogging', {
       try {
         setHeaderToken(localStorage.getItem('accessToken'));
         const response = await api.get(`/records/${profileStore.profile.id}`);
-        console.log(`전체 조회 응답 === [${JSON.stringify(response.data)}]`);
+        // console.log(`전체 조회 응답 === [${JSON.stringify(response.data)}]`);
         this.ploggingRecord = formatResponseData(response.data);
       } catch (error) {
         console.error('플로깅 기록 데이터 호출 중 에러 발생:', error);

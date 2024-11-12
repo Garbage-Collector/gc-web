@@ -7,7 +7,9 @@
       icon="chevron_left"
       @click="router.back()"
     />
-    <p class="text-bold text-h5 q-mt-xl" style="margin-top: 20px">플로깅 기록 작성</p>
+    <p class="text-bold text-h5 q-mt-xl" style="margin-top: 20px">
+      플로깅 기록 작성
+    </p>
     <div class="flex column q-mb-lg">
       <span class="text-grey-6">내가 한 플로깅을 기록으로 남겨보세요!</span>
     </div>
@@ -69,7 +71,36 @@ const router = useRouter();
 const images = ref<{ file: File; preview: string }[]>([]);
 const dialogVisible = ref(false);
 
-const handleFileChange = (event: Event) => {
+const resizeImage = async (file: File) => {
+  return new Promise<File>((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxWidth = 800; // Maximum width of 800px
+        const scaleSize = maxWidth / img.width;
+        canvas.width = maxWidth;
+        canvas.height = img.height * scaleSize;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob(
+          (blob) => {
+            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+          },
+          'image/jpeg',
+          0.5, // Image quality (0.1 ~ 1.0)
+        );
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
+};
+
+const handleFileChange = async (event: Event) => {
   const input = event.target as HTMLInputElement;
   if (input.files) {
     const selectedFiles = Array.from(input.files);
@@ -78,13 +109,28 @@ const handleFileChange = (event: Event) => {
       alert('최대 5장의 이미지만 업로드할 수 있습니다.');
       return;
     }
-    selectedFiles.slice(0, 5 - images.value.length).forEach((file) => {
+    //   selectedFiles.slice(0, 5 - images.value.length).forEach((file) => {
+    //     const reader = new FileReader();
+    //     reader.onload = (e) => {
+    //       images.value.push({
+    //         file,
+    //         preview: e.target?.result as string,
+    //       });
+    //     };
+    //     reader.readAsDataURL(file);
+    //   });
+    // }
+    for (const file of selectedFiles.slice(0, 5 - images.value.length)) {
+      const resizedFile = await resizeImage(file);
       const reader = new FileReader();
       reader.onload = (e) => {
-        images.value.push({ file, preview: e.target?.result as string });
+        images.value.push({
+          file: resizedFile,
+          preview: e.target?.result as string,
+        });
       };
-      reader.readAsDataURL(file);
-    });
+      reader.readAsDataURL(resizedFile);
+    }
   }
 };
 
@@ -126,17 +172,20 @@ const submitImages = async () => {
   background-image: url('../../assets/plogging-record-background.png');
   background-repeat: round;
 }
+
 .add-box {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
 }
+
 .img-text {
   color: #ffffff;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
 }
+
 .file-input {
   position: absolute;
   top: 0;
@@ -146,18 +195,21 @@ const submitImages = async () => {
   opacity: 0;
   cursor: pointer;
 }
+
 .preview-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 20px;
 }
+
 .preview-image img {
   width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 8px;
 }
+
 .next-button {
   margin-top: 24px;
   position: absolute;

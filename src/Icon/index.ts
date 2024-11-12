@@ -1,16 +1,12 @@
-import { Component, defineAsyncComponent } from 'vue';
-
-const LikeIcon = defineAsyncComponent(() => import('./LikeIcon.svg'));
-const ShareIcon = defineAsyncComponent(() => import('./ShareIcon.svg'));
-const BurgerMenuIcon = defineAsyncComponent(
-  () => import('./BurgerMenuIcon.svg'),
-);
-const BackArrow = defineAsyncComponent(() => import('./BackArrow.svg'));
-const TrashCan = defineAsyncComponent(() => import('./TrashCanIcon.svg'));
-const AddBox = defineAsyncComponent(() => import('./addBox.svg'));
+import LikeIcon from './LikeIcon.svg';
+import ShareIcon from './ShareIcon.svg';
+import BurgerMenuIcon from './BurgerMenuIcon.svg';
+import BackArrow from './BackArrow.svg';
+import TrashCan from './TrashCanIcon.svg';
+import AddBox from './addBox.svg';
 
 interface IconComponents {
-  [key: string]: Component;
+  [key: string]: string; // string 타입으로 변경하여 이미지 경로를 저장합니다.
 }
 
 const icons: IconComponents = {

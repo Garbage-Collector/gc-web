@@ -19,10 +19,7 @@ export default configure((/* ctx */) => {
     css: ['app.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
-    extras: [
-      'roboto-font',
-      'material-icons',
-    ],
+    extras: ['roboto-font', 'material-icons'],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
@@ -39,10 +36,10 @@ export default configure((/* ctx */) => {
 
     // Updated devServer configuration
     devServer: {
-      host: '0.0.0.0',  // Make the server accessible on the network
-      port: 3001,        // Use port 3001 for development server
-      open: true,        // Automatically open the browser
-      https: false,      // Disable HTTPS for development
+      host: '0.0.0.0', // Make the server accessible on the network
+      port: 3001, // Use port 3001 for development server
+      open: true, // Automatically open the browser
+      https: false, // Disable HTTPS for development
     },
 
     framework: {
@@ -96,4 +93,3 @@ export default configure((/* ctx */) => {
     },
   };
 });
-

@@ -1,5 +1,5 @@
 <template>
-  <section class="base-card">
+  <section class="base-card" @click="$emit('click')">
     <img :src="photo" :alt="title" class="card-image" />
 
     <article class="content-wrapper">
@@ -18,6 +18,7 @@ interface Props {
   title: string;
   startDt: string;
 }
+
 defineProps<Props>();
 </script>
 
@@ -25,10 +26,11 @@ defineProps<Props>();
 .base-card {
   border: 1px solid #ccc;
   border-radius: 16px;
-  width: 180px;
+  width: 150px;
   height: 203px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
   border: none;
+  cursor: pointer; /* 클릭 가능하게 포인터로 설정 */
 }
 
 .card-image {
@@ -37,10 +39,11 @@ defineProps<Props>();
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
+
 .title {
   color: #2c2c2c;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .content {
@@ -48,6 +51,7 @@ defineProps<Props>();
   font-size: 12px;
   font-weight: 500;
 }
+
 .content-wrapper {
   padding: 8px 16px 8px 8px;
 }

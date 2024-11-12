@@ -17,6 +17,7 @@
           :photo="item.photo"
           :title="item.title"
           :startDt="item.startDate"
+          @click="handleCardClick(item.id)"
         />
       </div>
     </div>
@@ -36,6 +37,9 @@ import greenAlert from '../../assets/green-alert-img.png';
 
 const router = useRouter();
 const ploggingStore = usePloggingStore();
+const handleCardClick = (id) => {
+  router.push(`/feed/${id}`);
+};
 </script>
 
 <style scoped lang="scss">

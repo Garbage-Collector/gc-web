@@ -93,12 +93,42 @@ const triggerFileInput = () => {
   fileInput.value.click();
 };
 
-const handleFileChange = (event) => {
+const resizeImage = async (file) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxWidth = 800; // 최대 너비를 800px로 제한
+        const scaleSize = maxWidth / img.width;
+        canvas.width = maxWidth;
+        canvas.height = img.height * scaleSize;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob(
+          (blob) => {
+            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+          },
+          'image/jpeg',
+          0.7, // 이미지 품질 (0.1 ~ 1.0)
+        );
+      };
+      img.src = event.target.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
+};
+
+const handleFileChange = async (event) => {
   const files = event.target.files;
   if (files.length > 0) {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      newImages.value.push(file);
+      const resizedImage = await resizeImage(file); // 리사이즈된 이미지를 생성
+      newImages.value.push(resizedImage);
 
       // 이미지 미리보기 생성
       const reader = new FileReader();
@@ -111,6 +141,16 @@ const handleFileChange = (event) => {
 };
 
 const updateRecord = async () => {
+  if (newImages.value.length === 0) {
+    $q.notify({
+      message: '사진을 최소 한 장 이상 업로드 해주세요.',
+      type: 'negative',
+      position: 'center',
+      timeout: 500,
+    });
+    return;
+  }
+
   const recordId = route.params.id;
   const formData = new FormData();
   formData.append('title', title.value);

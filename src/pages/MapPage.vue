@@ -3,7 +3,8 @@
     <header class="text-bold text-h5" :style="{ marginBottom: '0.5rem' }">
       {{ currentDate }}
     </header>
-    <NaverMapComponent :datas="markerData" />
+
+    <NaverMapComponent :datas="markerData" ref="captureArea" />
 
     <section class="status-bar">
       <div class="status-time">
