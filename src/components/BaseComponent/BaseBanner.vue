@@ -22,12 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { api } from 'src/boot/axios';
 import BaseIcon from 'src/components/BaseComponent/BaseIcon.vue';
 import { computed } from 'vue';
 import defaultImg from '../../assets/피드이미지.png';
-
 import { useRouter } from 'vue-router';
+import { usePloggingStore } from 'stores/ploggingStore';
+import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
 
 type Props = {
   id: string;
@@ -38,6 +39,9 @@ type Props = {
 
 const props = defineProps<Props>();
 const router = useRouter();
+const ploggingStore = usePloggingStore();
+const emit = defineEmits(['deleted']);
+const $q = useQuasar();
 
 const computedImgSrc = computed(() => {
   return props.imgSrc || defaultImg;
@@ -52,9 +56,29 @@ const confirmDelete = () => {
 const deleteRecord = async (recordId: string) => {
   try {
     await api.delete(`/records/${recordId}`).then(() => {
+      // 성공적으로 삭제된 후 알림
+      $q.notify({
+        color: 'green',
+        position: 'bottom',
+        message: '삭제되었습니다!',
+        icon: 'check',
+        timeout: 500,
+      });
       console.log('삭제됨');
     });
+
+    ploggingStore.ploggingRecord = ploggingStore.ploggingRecord.filter(
+      (record) => record.id !== recordId,
+    );
+    emit('deleted', recordId);
   } catch (error) {
+    // 에러 발생 시 알림
+    $q.notify({
+      color: 'red',
+      position: 'top',
+      message: '삭제 실패. 다시 시도해주세요.',
+      icon: 'error',
+    });
     console.error(error);
   }
 };

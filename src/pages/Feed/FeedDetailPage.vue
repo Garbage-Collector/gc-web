@@ -51,7 +51,7 @@
             <div class="by-mason-eduard">
               <span>
                 <span class="by-mason-eduard-span2"
-                >작성자: {{ profileStore.profile.nickname }}</span
+                  >작성자: {{ profileStore.profile.nickname }}</span
                 >
               </span>
             </div>
@@ -99,7 +99,6 @@ const record = ref({
 
 const currentImageIndex = ref(0); // 현재 이미지 인덱스
 
-
 const fetchSingleRecord = async () => {
   await api.get(`/records/${userId}/${recordId}`).then((res) => {
     console.log(`res.data === [${JSON.stringify(res.data)}]`);
@@ -129,7 +128,11 @@ const nextImage = () => {
 
 <style scoped>
 .main-wrapper {
-  padding: 48px 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 48px;
+  padding-bottom: 1500px;
+  overflow-y: auto; /* 스크롤 추가 */
 }
 
 .frame-4171 {
@@ -213,11 +216,13 @@ const nextImage = () => {
 .jan-1-2021 {
   color: var(#828282);
   text-align: right;
-  font-family: 'OpenSans-Light', sans-serif;
   font-size: 10px;
   font-weight: 500;
   position: relative;
-  width: 100px;
+  width: auto;
+  max-width: 150px; /* 필요에 따라 너비 조정 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  overflow: hidden; /* 넘칠 경우 숨김 */
   height: 17px;
   display: flex;
   align-items: center;
@@ -323,7 +328,7 @@ const nextImage = () => {
   position: relative;
   width: 335px;
   height: auto;
-  white-space: pre;
+  white-space: pre-wrap;
   background: #f0f0f0; /* 원하는 배경색으로 변경 */
   padding: 16px; /* 내용과 테두리 사이 여백 */
   border-radius: 8px; /* 테두리 둥글게 */
@@ -396,8 +401,8 @@ const nextImage = () => {
 }
 
 .image-container {
-  width: 350px;
-  height: 250px;
+  width: 360px;
+  height: 450px;
   position: relative;
 }
 
@@ -428,6 +433,4 @@ const nextImage = () => {
 .right {
   margin-left: 10px;
 }
-
-
 </style>

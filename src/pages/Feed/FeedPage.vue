@@ -20,6 +20,7 @@
           :start-date="banner.startDate.substring(0, 10)"
           :imgSrc="banner.photo"
           @click.prevent="router.push(`/feed/${banner.id}`)"
+          @deleted="handleDeleted"
         />
       </div>
     </div>
@@ -58,6 +59,13 @@ onMounted(async () => {
     console.error('플로깅 조회 에러', error);
   }
 });
+
+const handleDeleted = (recordId: string) => {
+  // deleted 이벤트가 발생하면 해당 항목을 store에서 제거
+  ploggingStore.ploggingRecord = ploggingStore.ploggingRecord.filter(
+    (record) => record.id !== recordId,
+  );
+};
 </script>
 
 <style scoped>
@@ -67,9 +75,11 @@ onMounted(async () => {
   justify-content: center; /* 가운데 정렬을 원할 경우 추가 */
   margin-bottom: 20px; /* 배너 아래에도 간격을 주려면 추가 */
 }
+
 .main-wrapper {
   padding: 48px 24px;
 }
+
 .my-plogging {
   font-size: 24px;
   font-weight: bold;
@@ -81,6 +91,7 @@ onMounted(async () => {
   margin-bottom: 24px;
   opacity: 0.6;
 }
+
 .alert_wrapper {
   display: flex;
   justify-content: center;
