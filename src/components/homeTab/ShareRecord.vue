@@ -4,20 +4,19 @@
       <q-icon name="share" class="header-icon" />
       <h6><strong>같이 나누는 플로깅 스토리</strong></h6>
     </div>
-
-    <!--    <div class="more">-->
-    <!--      <span @click="router.push('/feed')">더보기</span>-->
-    <!--      <q-icon name="arrow_forward_ios" style="margin-bottom: 1px"></q-icon>-->
-    <!--    </div>-->
   </header>
 
-  <div v-if="ploggingStore.ploggingRecord.length !== 0">
+  <div v-if="sharedPloggingStore.ploggingRecord.length !== 0">
     <div class="card-wrapper">
-      <div v-for="(item, index) in ploggingStore.ploggingRecord" :key="index">
+      <div
+        v-for="(item, index) in sharedPloggingStore.ploggingRecord"
+        :key="index"
+      >
         <BaseCard
           :photo="item.photo"
           :title="item.title"
           :startDt="item.startDate"
+          @click="handleCardClick(item.id)"
         />
       </div>
     </div>
@@ -30,13 +29,17 @@
 </template>
 
 <script setup lang="ts">
-// import { useRouter } from 'vue-router';
 import BaseCard from '../BaseComponent/BaseCard.vue';
-import { usePloggingStore } from 'src/stores/ploggingStore';
 import greenAlert from '../../assets/green-alert-img.png';
+import { useSharedPloggingStore } from 'stores/ploggingShareStore';
+import { useRouter } from 'vue-router';
 
-// const router = useRouter();
-const ploggingStore = usePloggingStore();
+// routing ok ? ?
+const router = useRouter();
+const sharedPloggingStore = useSharedPloggingStore();
+const handleCardClick = (id) => {
+  router.push(`/feed/${id}`);
+};
 </script>
 
 <style scoped lang="scss">

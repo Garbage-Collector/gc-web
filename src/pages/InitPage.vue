@@ -21,18 +21,18 @@ import { useAuthStore } from 'src/stores/authStore';
 import { usePloggingStore } from 'src/stores/ploggingStore';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useSharedPloggingStore } from 'stores/ploggingShareStore';
 
 const router = useRouter();
 const loading = ref(true);
 
 const ploggingStore = usePloggingStore();
+const sharedPloggingStore = useSharedPloggingStore();
 const authStore = useAuthStore();
 onMounted(async () => {
   try {
     await ploggingStore.getPloggingRecord();
-    console.log(
-      `플로깅 기록 ===[${JSON.stringify(ploggingStore.ploggingRecord)}]`,
-    );
+    await sharedPloggingStore.getSharedPloggingRecord();
     await authStore.refreshToken();
   } finally {
     setTimeout(() => {

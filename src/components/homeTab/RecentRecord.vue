@@ -31,8 +31,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import BaseCard from '../BaseComponent/BaseCard.vue';
 import { usePloggingStore } from 'src/stores/ploggingStore';
+import BaseCard from '../BaseComponent/BaseCard.vue';
 import greenAlert from '../../assets/green-alert-img.png';
 
 const router = useRouter();
