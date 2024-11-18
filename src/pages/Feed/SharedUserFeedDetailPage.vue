@@ -51,7 +51,7 @@
             <div class="by-mason-eduard">
               <span>
                 <span class="by-mason-eduard-span2"
-                  >작성자 ID: {{ userId }}</span
+                  >작성자: 함께하는 플로깅 사용자</span
                 >
               </span>
             </div>
