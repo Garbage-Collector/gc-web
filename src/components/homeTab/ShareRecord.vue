@@ -38,7 +38,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const sharedPloggingStore = useSharedPloggingStore();
 const handleCardClick = (id) => {
-  router.push(`/feed/${id}`);
+  router.push(`/feed/shared/${id}`);
 };
 </script>
 

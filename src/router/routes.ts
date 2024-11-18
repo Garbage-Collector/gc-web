@@ -17,7 +17,6 @@ const routes: RouteRecordRaw[] = [
         path: 'home',
         component: () => import('pages/HomeMainPage.vue'),
       },
-
       {
         path: 'feed',
         component: () => import('pages/Feed/FeedPage.vue'),
@@ -25,6 +24,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'feed/:id',
         component: () => import('pages/Feed/FeedDetailPage.vue'),
+      },
+      {
+        path: 'feed/shared/:id',
+        component: () => import('pages/Feed/SharedUserFeedDetailPage.vue'),
       },
       {
         path: 'feed/modify/:id',
