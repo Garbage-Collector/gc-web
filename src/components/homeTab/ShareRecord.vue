@@ -16,7 +16,7 @@
           :photo="item.photo"
           :title="item.title"
           :startDt="item.startDate"
-          @click="handleCardClick(item.userId)"
+          @click="handleCardClick(item.id)"
         />
       </div>
     </div>

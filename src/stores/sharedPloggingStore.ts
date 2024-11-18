@@ -7,6 +7,7 @@ const profileStore = useProfileStore();
 
 export const useSharedPloggingStore = defineStore('sharePlogging', {
   state: () => ({
+    id: '',
     title: '',
     content: '',
     location: '',
@@ -19,6 +20,7 @@ export const useSharedPloggingStore = defineStore('sharePlogging', {
 
   actions: {
     setPloggingData(data) {
+      this.id = data.id;
       this.title = data.title;
       this.location = data.location;
       this.startTime = data.startTime;
@@ -35,7 +37,9 @@ export const useSharedPloggingStore = defineStore('sharePlogging', {
     async getSharedPloggingRecord() {
       try {
         setHeaderToken(localStorage.getItem('accessToken'));
-        const response = await api.get(`/records/diff/${profileStore.profile.id}`);
+        const response = await api.get(
+          `/records/diff/${profileStore.profile.id}`,
+        );
         this.ploggingRecord = formatResponseData(response.data);
       } catch (error) {
         console.error('플로깅 기록 데이터 호출 중 에러 발생:', error);

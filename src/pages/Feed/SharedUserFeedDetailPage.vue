@@ -86,6 +86,7 @@ const route = useRoute();
 const baseUrl = import.meta.env.VITE_BASE_URL_IMAGE;
 
 const userId = sharedPloggingStore.userId;
+console.log(`유저 아이디 정보: ${userId}`);
 const recordId = route.params.id;
 const record = ref({
   image: [] as { imageUrl: string }[],
