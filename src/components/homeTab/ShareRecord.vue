@@ -16,7 +16,7 @@
           :photo="item.photo"
           :title="item.title"
           :startDt="item.startDate"
-          @click="handleCardClick(item.id)"
+          @click="handleCardClick(item.userId)"
         />
       </div>
     </div>
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import BaseCard from '../BaseComponent/BaseCard.vue';
 import greenAlert from '../../assets/green-alert-img.png';
-import { useSharedPloggingStore } from 'stores/ploggingShareStore';
+import { useSharedPloggingStore } from 'stores/sharedPloggingStore';
 import { useRouter } from 'vue-router';
 
 // routing ok ? ?

@@ -78,14 +78,14 @@ import { api } from 'src/boot/axios';
 import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
 import profilePicture from '../../assets/logo.png';
-import { useSharedPloggingStore } from 'stores/ploggingShareStore';
+import { useSharedPloggingStore } from 'stores/sharedPloggingStore';
 
 const sharedPloggingStore = useSharedPloggingStore();
 const router = useRouter();
 const route = useRoute();
 const baseUrl = import.meta.env.VITE_BASE_URL_IMAGE;
 
-const userId = sharedPloggingStore.profile.id;
+const userId = sharedPloggingStore.userId;
 const recordId = route.params.id;
 const record = ref({
   image: [] as { imageUrl: string }[],

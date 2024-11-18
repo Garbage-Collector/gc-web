@@ -13,6 +13,7 @@ export const useSharedPloggingStore = defineStore('sharePlogging', {
     images: [] as File[],
     startTime: '',
     endTime: '',
+    userId: '',
     ploggingRecord: [],
   }),
 
@@ -22,6 +23,7 @@ export const useSharedPloggingStore = defineStore('sharePlogging', {
       this.location = data.location;
       this.startTime = data.startTime;
       this.endTime = data.endTime;
+      this.userId = data.userId;
     },
     setPloggingContent(content) {
       this.content = content;

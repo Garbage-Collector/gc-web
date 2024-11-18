@@ -7,5 +7,6 @@ export const formatResponseData = (responseData) => {
     title: record.title,
     startDate: record.startTime,
     photo: record.image[0] ? `${baseUrl}${record.image[0].imageUrl}` : '', // 이미지가 있을 경우 URL 앞에 baseUrl 추가
+    userId: record.userId
   }));
 };

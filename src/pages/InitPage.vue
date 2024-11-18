@@ -21,7 +21,7 @@ import { useAuthStore } from 'src/stores/authStore';
 import { usePloggingStore } from 'src/stores/ploggingStore';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useSharedPloggingStore } from 'stores/ploggingShareStore';
+import { useSharedPloggingStore } from 'stores/sharedPloggingStore';
 
 const router = useRouter();
 const loading = ref(true);
