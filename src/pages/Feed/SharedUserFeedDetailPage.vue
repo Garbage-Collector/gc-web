@@ -262,7 +262,7 @@ const nextImage = () => {
 
 .group-4170 {
   flex-shrink: 0;
-  width: 125px;
+  width: 150px;
   height: 24px;
   position: static;
 }
@@ -276,7 +276,7 @@ const nextImage = () => {
   position: absolute;
   left: 32px;
   top: 4px;
-  width: 93px;
+  width: 200px;
   height: 17px;
   display: flex;
   align-items: center;
