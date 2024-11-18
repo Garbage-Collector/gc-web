@@ -11,7 +11,7 @@
         <p v-if="countdown > 0" key="countdown">
           {{ countdown }}
         </p>
-        <p v-else key="time">{{ elapsedTime }}</p>
+        <p v-else key="time">플로깅 시간: {{ elapsedTime }}</p>
       </div>
     </section>
 
