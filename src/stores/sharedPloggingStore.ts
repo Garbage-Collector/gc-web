@@ -7,7 +7,6 @@ const profileStore = useProfileStore();
 
 export const useSharedPloggingStore = defineStore('sharePlogging', {
   state: () => ({
-    id: '',
     title: '',
     content: '',
     location: '',
@@ -20,7 +19,6 @@ export const useSharedPloggingStore = defineStore('sharePlogging', {
 
   actions: {
     setPloggingData(data) {
-      this.id = data.id;
       this.title = data.title;
       this.location = data.location;
       this.startTime = data.startTime;

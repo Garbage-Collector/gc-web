@@ -75,7 +75,6 @@
 
 <script setup lang="ts">
 import { api } from 'src/boot/axios';
-import BaseIcon from 'src/components/BaseComponent/BaseIcon.vue';
 import { useProfileStore } from 'src/stores/profileStore';
 import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';

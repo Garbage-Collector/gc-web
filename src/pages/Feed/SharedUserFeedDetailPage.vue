@@ -51,7 +51,7 @@
             <div class="by-mason-eduard">
               <span>
                 <span class="by-mason-eduard-span2"
-                  >작성자: {{ sharedPloggingStore.profile.nickname }}</span
+                  >작성자 ID: {{ userId }}</span
                 >
               </span>
             </div>
@@ -78,15 +78,12 @@ import { api } from 'src/boot/axios';
 import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
 import profilePicture from '../../assets/logo.png';
-import { useSharedPloggingStore } from 'stores/sharedPloggingStore';
 
-const sharedPloggingStore = useSharedPloggingStore();
 const router = useRouter();
 const route = useRoute();
 const baseUrl = import.meta.env.VITE_BASE_URL_IMAGE;
 
-const userId = sharedPloggingStore.userId;
-console.log(`유저 아이디 정보: ${userId}`);
+const userId = route.params.userId;
 const recordId = route.params.id;
 const record = ref({
   image: [] as { imageUrl: string }[],
@@ -100,6 +97,7 @@ const record = ref({
 const currentImageIndex = ref(0); // 현재 이미지 인덱스
 
 const fetchSingleRecord = async () => {
+  console.log(`유저 아이디 정보: ${userId}`);
   await api.get(`/records/${userId}/${recordId}`).then((res) => {
     console.log(`res.data === [${JSON.stringify(res.data)}]`);
     console.log(res.data.record);

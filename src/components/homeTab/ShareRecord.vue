@@ -16,7 +16,7 @@
           :photo="item.photo"
           :title="item.title"
           :startDt="item.startDate"
-          @click="handleCardClick(item.id)"
+          @click="handleCardClick(item.id, item.userId)"
         />
       </div>
     </div>
@@ -37,8 +37,8 @@ import { useRouter } from 'vue-router';
 // routing ok ? ?
 const router = useRouter();
 const sharedPloggingStore = useSharedPloggingStore();
-const handleCardClick = (id) => {
-  router.push(`/feed/shared/${id}`);
+const handleCardClick = (id, userId) => {
+  router.push(`/feed/shared/${id}/${userId}`);
 };
 </script>
 

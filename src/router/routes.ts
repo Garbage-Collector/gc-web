@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Feed/FeedDetailPage.vue'),
       },
       {
-        path: 'feed/shared/:id',
+        path: 'feed/shared/:id/:userId',
         component: () => import('pages/Feed/SharedUserFeedDetailPage.vue'),
       },
       {
