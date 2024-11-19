@@ -2,8 +2,8 @@
   <section class="home-wrapper">
     <HeaderComponent />
     <PloggingRecord />
-    <RecentRecord />
     <ShareRecord/>
+    <RecentRecord />
   </section>
 </template>
 
