@@ -1,14 +1,13 @@
 <template>
   <section class="main-wrapper">
+    <q-btn
+      padding="sm"
+      color="green"
+      round
+      icon="chevron_left"
+      @click="router.back()"
+    />
     <div class="div2">
-      <q-btn
-        padding="sm"
-        color="green"
-        round
-        icon="chevron_left"
-        @click="router.back()"
-        class="back-button"
-      />
       <br />
       {{ record.title }}
     </div>

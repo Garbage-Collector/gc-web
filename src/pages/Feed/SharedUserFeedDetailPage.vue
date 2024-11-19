@@ -6,8 +6,11 @@
       round
       icon="chevron_left"
       @click="router.back()"
-      style="margin-bottom: 20px"
     />
+    <div class="div2">
+      <br />
+      {{ record.title }}
+    </div>
 
     <div class="frame-4171">
       <div class="image-container">
@@ -42,10 +45,7 @@
             <div class="jan-1-2021">날짜: {{ record.startTime }}</div>
           </div>
         </div>
-        <div class="div2">
-          <br />
-          {{ record.title }}
-        </div>
+
         <div class="frame-4168">
           <div class="group-4170">
             <div class="by-mason-eduard">
@@ -229,14 +229,14 @@ const nextImage = () => {
 
 .div2 {
   color: var(--main-black, #2c2c2c);
-  text-align: left;
+  text-align: center;
   font-family: 'OpenSans-Bold', sans-serif;
   font-size: 24px;
   font-weight: 700;
   position: relative;
   width: 335px;
   height: 70px;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
 }
 
 .div3 {
