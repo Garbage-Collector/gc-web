@@ -63,6 +63,8 @@ header {
   display: flex;
   gap: 12px;
   overflow-x: auto;
+  overflow-y: hidden; /* 세로 스크롤 제거 */
+  white-space: nowrap; /* 카드가 줄바꿈되지 않도록 설정 */
   padding-bottom: 16px; /* 스크롤 바 아래에 패딩 추가 */
 }
 
